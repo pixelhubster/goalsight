@@ -7,11 +7,11 @@ import Modal from '@/components/modal'
 import React from 'react'
 
 const page = () => {
-return (
+  return (
     <Modal>
       {/* <Login /> */}
       <Form>
-      <CreateInsightForm />
+        <CreateInsightForm />
         <LocationForm />
         <DescriptionForm />
         <PartnerForm />

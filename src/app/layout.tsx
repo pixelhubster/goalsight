@@ -21,7 +21,7 @@ export default function layout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Link href="/login">Login</Link>
+        {/* <Link href="/createinsight">createform</Link> */}
         {auth}
         <Frame>
           {children}
