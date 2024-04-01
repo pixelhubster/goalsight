@@ -8,6 +8,5 @@ export default function Layout({
         <div>
             {children}
         </div>
-        )
-
+    )
 }

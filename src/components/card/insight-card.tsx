@@ -31,7 +31,7 @@ const InsightCard = () => {
                         {/* <button className='w-full px-5 bg-blue-400 shadow-md rounded-md flex justify-center items-center my-2'>Contribute</button> */}
                     </div>
                 </div>
-                <button className='w-[fill] shrink m-2 py-1 px-5 bg-blue-400 shadow-md rounded-md flex justify-center items-center my-2'>Contribute</button>
+                <button className='w-[stretch] shrink m-2 py-1 px-5 bg-blue-400 shadow-md rounded-md flex justify-center items-center my-2'>Contribute</button>
             </div>
             {/* <div className="flex flex-auto flex-wrap">
                 <div className="p-1 bg-green-100 w-fit rounded-md text-[12px] px-3 m-1 ml-0">gnec hospital</div>

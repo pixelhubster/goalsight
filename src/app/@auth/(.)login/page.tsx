@@ -1,8 +1,12 @@
+import Login from '@/components/forms/login'
+import Modal from '@/components/modal'
 import React from 'react'
 
 const page = () => {
-  return (
-    <div>Login page modal</div>
+return (
+    <Modal>
+      <Login />
+    </Modal>
   )
 }
 
