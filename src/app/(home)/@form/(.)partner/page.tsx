@@ -1,18 +1,19 @@
 import Form from '@/components/form'
-import CreateInsightForm from '@/components/forms/insight/create-insight'
 import DescriptionForm from '@/components/forms/insight/description'
 import LocationForm from '@/components/forms/insight/location'
-import PartnerForm from '@/components/forms/insight/partners'
+import BecomePartner from '@/components/forms/partner/become-partner'
+import Modal from '@/components/modal'
 import React from 'react'
 
 const page = () => {
   return (
-    <Form>
-        <CreateInsightForm />
+    <Modal>
+      <Form>
+        <BecomePartner />
         <LocationForm />
         <DescriptionForm />
-        <PartnerForm />
-    </Form>
+      </Form>
+    </Modal>
   )
 }
 
