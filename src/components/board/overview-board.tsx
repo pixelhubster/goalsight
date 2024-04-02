@@ -2,9 +2,9 @@ import React from 'react'
 
 const OverviewBoard = () => {
   return (
-    <div className='w-full h-[30rem] bg-gray-200 m-2 my-0 rounded-xl flex flex-col justify-end overflow-hidden'>
+    <div className='w-full h-fit bg-gray-200 rounded-t-xl flex flex-col justify-end overflow-hidden'>
         <div className='w-full h-[5rem] bg-gray-200'></div>
-        <div className='w-full h-full bg-gray-400 rounded-lg p-5'>
+        <div className='w-full h-full bg-gray-400 rounded-t-xl p-5'>
 
           <div>
             <h3 className="text-lg line-clamp-3 overflow-hidden text-ellipsis font-medium">Reconstructing aaaaaaaaaaaa Accra Bridge in Ghana Accra Greater Accra</h3>

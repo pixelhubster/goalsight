@@ -2,7 +2,7 @@ import React from 'react'
 
 const PartnerOverview = () => {
     return (
-        <div className='w-full h-[20rem] bg-white rounded-md p-2 mb-2'>
+        <div className='w-full bg-white rounded-md p-2 mb-2'>
 
             <div className="w-full h-[3rem] bg-red-00 p-2 flex items-start justify-center outline-none outline-solid outline-gray-300/90 outline-1 rounded-sm mb-2 cursor-pointer">
                 <div className='w-[2.5rem] h-full bg-green-500 p-2 rounded-full flex justify-center items-center mr-1'>a</div>
