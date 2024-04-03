@@ -1,6 +1,10 @@
+"use client"
+import { useRouter } from 'next/navigation'
 import React from 'react'
+import Link from 'next/link'
 
 const Statistics = () => {
+    const router = useRouter()
     return (
         <div className='w-full bg-white rounded-md p-2 mb-2'>
 
@@ -32,8 +36,9 @@ const Statistics = () => {
                 </h4>
             </div>
 
-
-            <button className='w-full bg-blue-400 p-2 rounded-md font-medium'>Contribute</button>
+            <button className='w-full bg-blue-400 p-2 rounded-md font-medium mb-1' onClick={() => router.push("/insight/showcase")}>
+                Show working</button>
+            <button className='w-full bg-blue-400 p-2 rounded-md font-medium mb-1'>Contribute</button>
         </div>
     )
 }

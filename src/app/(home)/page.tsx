@@ -4,6 +4,7 @@ import Link from "next/link";
 export default function Home() {
   return (
     <>
+    <div className='customgrid w-full'>
       <InsightCard />
       <InsightCard />
       <InsightCard />
@@ -14,6 +15,7 @@ export default function Home() {
       <InsightCard />
       <InsightCard />
       <InsightCard />
+    </div>
     </>
   );
 }

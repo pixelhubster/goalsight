@@ -1,7 +1,7 @@
 import React from 'react'
 import Frame from '../frame'
 
-const layout = ({children, form}: {children: React.ReactNode, form: React.ReactNode}) => (
+const layout = ({children, form}: {children: React.ReactNode, form: React.ReactNode,}) => (
     <>
         {form}
         <Frame>

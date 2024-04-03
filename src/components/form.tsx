@@ -2,7 +2,7 @@
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 
-const Form = ({children} : {children: Array<React.ReactNode>}) => {
+const Form = ({children, btn} : {children: React.ReactNode[], btn?: string}) => {
     const router = useRouter()
     const [index, setIndex] = useState<number>(0)
     return (
@@ -17,7 +17,7 @@ const Form = ({children} : {children: Array<React.ReactNode>}) => {
             {/* <div className='w-[7px] cursor-pointer m-[1px] h-[7px] bg-red-300 rounded-full flex justify-center items-center'></div> */}
 
         </div>
-        <button className='bg-blue-300 p-1 px-5 rounded-md shadow-sm' onClick={() => {index >= 0 && index < (children.length-1) ? setIndex(index+1) : setIndex(children.length -1 )}}>{index === children.length-1 ? "Submit": "next"}</button>
+        <button className='bg-blue-300 p-1 px-5 rounded-md shadow-sm' onClick={() => {index >= 0 && index < (children.length-1) ? setIndex(index+1) : setIndex(children.length -1 )}}>{index === children.length-1 ? btn || "Submit" : "Continue"}</button>
     </div>
 </div>
   )

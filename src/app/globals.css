@@ -38,3 +38,9 @@ body {
   grid-template-columns: repeat(auto-fill, minmax(20rem,1fr));
   gap: 0;
 }
+.customgridApprovalCard {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(auto-fill, minmax(25rem,1fr));
+  gap: 10;
+}

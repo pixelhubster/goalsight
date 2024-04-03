@@ -12,9 +12,9 @@ const Frame = ({ children }: { children: React.ReactNode }) => {
             {/* <div className="w-[15rem] h-[20em] bg-white m-2 rounded-2xl shadow-md">
             </div> */}
             <LinkCard />
-            <button className="bg-black p-3 px-5 rounded-3xl shadow-md fixed bottom-5 right-5 text-white" onClick={() => router.push("/partner")}>Become a Partner</button>
+            <button className="bg-black p-3 px-5 rounded-3xl shadow-md fixed bottom-5 right-5 text-white" onClick={() => router.push("/become-partner")}>Become a Partner</button>
             <button className="bg-black p-3 px-5 rounded-3xl shadow-md fixed bottom-[5rem] right-5 text-white" onClick={() => router.push("/createinsight")}>Create Goal</button>
-            <div className="w-full bg-white p-10 pt-5 max-md:p-5 customgrid">
+            <div className="w-full bg-white p-10 pt-5 max-md:p-5">
                 {children}
             </div>
         </main>
