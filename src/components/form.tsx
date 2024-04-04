@@ -1,14 +1,16 @@
 "use client"
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
-
+import { MdClose } from 'react-icons/md'
 const Form = ({children, btn} : {children: React.ReactNode[], btn?: string}) => {
     const router = useRouter()
     const [index, setIndex] = useState<number>(0)
     return (
     <div className='w-[30rem] bg-white rounded-md overflow-hidden shadow-lg'>
-    <div className='w-full flex justify-between items-center bg-gray-00 p-2 px-5'>
-        <button className='text-gray-600' onClick={() => router.back()}>close</button>
+    <div className='w-full flex justify-between items-center bg-gray-00 p-2 pt-5 px-5 bg-red-00'>
+        <button className='text-gray-600' onClick={() => router.back()}>
+            <MdClose className='text-lg'/>
+        </button>
     </div>
     {children[index]}
     <div className='w-full flex justify-between items-center bg-gray-00 p-2 px-5 py-3'>

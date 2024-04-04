@@ -1,4 +1,6 @@
 import React from 'react'
+import { MdBookmarkBorder } from 'react-icons/md'
+import BookmarkCard from './bookmark-card'
 
 const InsightCard = () => {
     return (
@@ -19,7 +21,9 @@ const InsightCard = () => {
                     </div>
 
                     <div className="p-2 bg-gray-400 px-4 flex flex-col items-start pr-5 overflow-hidden">
-                        <div className="w-[min-content] self-end bg-gray-700 p-1 flex justify-end">h</div>
+                        <div className="w-[min-content] self-end bg-gray-00 p-1 flex justify-end">
+                            <BookmarkCard />
+                        </div>
                         <h3 className="text-lg ml-0 font-medium w-full">$45004</h3>
                         <div className="flex flex-wrap bg-red-00 text-gray-800 w-full">
                             <h3 className="text-[12px] mr-1 ">404 contributors</h3>
