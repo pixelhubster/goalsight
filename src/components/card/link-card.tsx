@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 const LinkCard = () => {
     return (
-        <div className="w-full h-[15rem] bg-emerald-300 flex items-end">
+        <div className="w-full h-[20rem] bg-emerald-300 flex items-end">
             <div className="w-full h-[3rem] bg-red-200 flex items-end px-2 md:px-10">
                 <Link href={"/"}>
                     <div className="w-fit bg-green-00 p-1 flex justify-center items-center cursor-pointer border-b-2 border-solid border-black mx-1">Insight</div>

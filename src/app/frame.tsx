@@ -11,8 +11,6 @@ const Frame = ({ children }: { children: React.ReactNode }) => {
     return (
         <main className="flex min-h-screen flex-col items-center">
             <Navbar />
-            {/* <div className="w-[15rem] h-[20em] bg-white m-2 rounded-2xl shadow-md">
-            </div> */}
             <LinkCard />
             <button className="bg-slate-800 p-3 px-5 rounded-3xl shadow-md fixed bottom-[5rem] right-5 text-white flex items-center justify-center" onClick={() => router.push("/createinsight")}>
                 {/* <MdFeed className='mx-2 text-md' /> */}
