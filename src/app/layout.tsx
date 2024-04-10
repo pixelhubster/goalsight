@@ -7,12 +7,12 @@ import { WagmiProvider } from "wagmi";
 import { mainnet, polygon, optimism, arbitrum, base } from 'wagmi/chains';
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 
-const config = getDefaultConfig({
-  appName: "GoalSight",
-  projectId: "yourid",
-  chains: [mainnet, polygon, optimism, arbitrum, base],
-  // ssr: true
-});
+// const config = getDefaultConfig({
+//   appName: 'My RainbowKit App',
+//   projectId: 'YOUR_PROJECT_ID',
+//   chains: [mainnet, polygon, optimism, arbitrum, base],
+//   ssr: true, // If your dApp uses server side rendering (SSR)
+// });
 
 const queryClient = new QueryClient();
 
@@ -31,13 +31,13 @@ export default function layout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <WagmiProvider config={config}>
+        {/* <WagmiProvider config={config}>
           <QueryClientProvider client={queryClient}>
-            <RainbowKitProvider>
+            <RainbowKitProvider> */}
               {children}
-            </RainbowKitProvider>
+            {/* </RainbowKitProvider>
           </QueryClientProvider>
-        </WagmiProvider>
+        </WagmiProvider> */}
       </body>
     </html>
   );
