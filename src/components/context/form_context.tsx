@@ -1,18 +1,18 @@
 "use client"
 import React, { useContext, useState } from 'react'
 
-const FormContext = React.createContext({})
+const FormContext = React.createContext()
 const UpdateDetailsContext = React.createContext()
 
 export function useDetails() {
-    return useContext(UpdateDetailsContext) as any
-}
+    return [useContext(FormContext), useContext(UpdateDetailsContext)]
+} 
 
 const FormProvider = ({ children }: { children: React.ReactNode }) => {
     const [details, setDetails] = useState({})
     const updateDetails = (e: any, key: String) => {
         const obj = {
-            [key as string]: e.target.value
+            [key as string]: e
         }
         setDetails({ ...details, ...obj })
     }
