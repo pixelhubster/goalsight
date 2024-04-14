@@ -5,7 +5,6 @@ import React from 'react'
 const CreateInsightForm = () => {
     const form = useForm()
     const [value, handleOnChange] = form()
-    console.log(value)
     return (
         <div className='w-full bg-gray-00'>
             <h3 className='w-full flex justify-center items-center p-2 bg-red-00 font-medium text-[14px]'>Create an Insight</h3>

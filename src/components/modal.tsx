@@ -7,7 +7,6 @@ const Modal = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter()
   const closeModal = () => router.back()
   useEffect(() => {
-    console.log("y", y_value)
     window.scrollTo(0,y_value)
   })
   return (
