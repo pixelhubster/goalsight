@@ -18,7 +18,7 @@ contract Dao {
     function getGoalVote(uint _id) public view returns(IVote memory) {
         return vote[_id];
     }
-        function getPartnerVote(uint _id) public view returns(IVote memory) {
+    function getPartnerVote(uint _id) public view returns(IVote memory) {
         return partnerVote[_id];
     }
     function hasVotedOnGoal(uint _id) public view returns(bool) {
@@ -65,5 +65,20 @@ contract Dao {
     function rejectPartner(uint256 _id) public hasToken hasVotedPartner(_id) isReputatable hasPartnerVoteExpired(_id) {
         vote[_id].reject += 1;
         voted[_id][msg.sender] = true;
+    }
+    function setGoalExpire(uint _id, uint time) public {
+        vote[_id].expire += time;
+    }
+    function setPartnerExpire(uint _id, uint time) public {
+        partnerVote[_id].expire += time;
+    }
+    function setPartnerCheck(uint _id, bool boolean) public {
+        partnerVote[_id].checked = boolean;
+    }
+    function setGoalCheck(uint _id, bool boolean) public {
+        vote[_id].checked = boolean;
+    }
+    function setReputation(address caller, uint number) public {
+        reputation[caller] += number;
     }
 }

@@ -2,15 +2,9 @@
 
 pragma solidity ^0.8.23;
 import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
-import "./Goal.sol";
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
-contract GoalSight{
-    //declare contructor where owner can withdraw fund
-    AggregatorV3Interface internal priceFeed;
-    constructor() {
-        priceFeed = AggregatorV3Interface(0x694AA1769357215DE4FAC081bf1f309aDC325306);
-        Dao daoLibrary = new Dao();
-    }
+import "./Dao.sol";
     struct IGoal {
         string aim;
         address owner;
@@ -47,19 +41,28 @@ contract GoalSight{
         string description;
         string createdAt;
     }
-    struct IApprover {
-        string name;
-        address owner;
+    struct IContributor {
+        uint balance;
+        bool rewarded;
     }
-    struct IContributor { 
-        uint256 balance;
-        address owner;
-        mapping(uint => string) contributor;
+
+contract GoalSight is ERC20 {
+    //declare contructor where owner can withdraw fund
+    Dao public daoLibrary;
+    AggregatorV3Interface internal priceFeed;
+    address public owner;
+
+    constructor(uint initialSupply) ERC20("Goal", "G") {
+        owner = msg.sender;
+        daoLibrary = new Dao();
+        priceFeed = AggregatorV3Interface(0x694AA1769357215DE4FAC081bf1f309aDC325306);
+        _mint(msg.sender, initialSupply * 1e18);
     }
-    IGoal[] public goals;
-    IPartner[] public partners;
-    mapping(address => uint256) public reputation;
-    mapping(uint256 => mapping(address => uint256)) contributors;
+
+
+    IGoal[] private goals;
+    IPartner[] private partners;
+    mapping(uint256 => mapping(address => IContributor)) private contributors;
     uint public balance;
 
     function getPrice() internal view returns(uint256) {
@@ -97,12 +100,8 @@ contract GoalSight{
         goals.push(_newGoal);
         // vote[goals.length - 1].expire = block.timestamp + 60;
         // daoLibrary.vote[goals.length - 1].expire = block.timestamp + 60;
-        // uint256 exp = daoLibrary.vote[0].expire;
+        daoLibrary.setGoalExpire(goals.length-1, block.timestamp+60);
     }
-    modifier wasInvited() {
-        _;
-    }
-
     function acceptPartnership(uint256 _id) public {
         for (uint i =0; i<goals[_id].onWait.length; i++) 
         {
@@ -112,6 +111,28 @@ contract GoalSight{
                 goals[_id].partners.push(id);
             }
         }
+    }
+
+    event Ledger (
+        uint indexed id,
+        address indexed to,
+        uint256 partnerID,
+        uint256 amount,
+        string purpose
+    );
+
+    function withdraw(uint _id, string memory _purpose) public payable {
+        for (uint i=0; i<goals[_id].partners.length; i++) 
+        {
+            uint id = goals[_id].partners[i];
+            if (partners[id].owner == msg.sender) {
+                require(msg.value > 0 && msg.value < goals[_id].balance, "Withdrawal amount must be between 0 and balance");
+                payable(msg.sender).transfer(msg.value);
+                emit Ledger(_id,msg.sender,id,msg.value,_purpose);
+                goals[_id].balance -= msg.value;
+            }
+        }
+        revert("Sender is not partner for the specified goal");
     }
 
     modifier isActive(uint _id) {
@@ -125,18 +146,27 @@ contract GoalSight{
 
     //validate goal existence
     function contribute(uint256 _id) public payable isActive(_id) isApproved(_id) {
-        uint256 _balance = getConversion(contributors[_id][msg.sender]);
-        contributors[_id][msg.sender] += msg.value;
+        uint256 _balance = getConversion(contributors[_id][msg.sender].balance);
+        contributors[_id][msg.sender].balance += msg.value;
         if (_balance <= 200) {
-            if (contributors[_id][msg.sender] >= 200) {
-                reputation[msg.sender] += 1;
+            if (contributors[_id][msg.sender].balance >= 200) {
+                daoLibrary.setReputation(msg.sender,1);
             }
         }
         goals[_id].balance += msg.value;
         //earn_token function
     }
+
+    function reward(uint _id) public {
+        require(contributors[_id][msg.sender].rewarded == false, "Sender has already being rewarded");
+        require(goals[_id].hasEnded == true, "Goal has not ended yet");
+        uint _balance = contributors[_id][msg.sender].balance;
+        require(_balance >0,"No contributions made to this goal");
+        transfer(msg.sender, _balance * (3 * 1e17));
+    }
     
     modifier hasToken {
+        require(balanceOf(msg.sender)>0, "User has no token");
         _;
     }
 
@@ -161,7 +191,8 @@ contract GoalSight{
         });
         partners.push(_newPartner);
         //duration is 60sec, for sake of the hackathon
-        partnerVote[partners.length - 1].expire = block.timestamp + 60;
+        // partnerVote[partners.length - 1].expire = block.timestamp + 60;
+        daoLibrary.setPartnerExpire(partners.length -1, block.timestamp + 60);
     }
 
     struct IVote{
@@ -170,73 +201,27 @@ contract GoalSight{
         uint256 expire;
         bool checked;
     }
-    mapping(uint => IVote) public vote;
-    mapping(uint => mapping(address => bool)) public voted;
-    mapping(uint => IVote) public partnerVote;
-    mapping(uint => mapping(address => bool)) public partnerVoted;
-
-    // function getGoalVote(uint _id) public view returns(IVote memory) {
-    //     return vote[_id];
-    // }
-    // function getPartnerVote(uint _id) public view returns(IVote memory) {
-    //     return partnerVote[_id];
-    // }
-    // function hasVotedOnGoal(uint _id) public view returns(bool) {
-    //     return voted[_id][msg.sender];
-    // }
-    // function hasVotedOnPartner(uint _id) public view returns(bool) {
-    //     return partnerVoted[_id][msg.sender];
-    // }
-    // modifier hasVoted(uint _id) {
-    //     require(voted[_id][msg.sender] == false, "User has voted already");
-    //     _;
-    // }
-    // modifier hasVotedPartner(uint _id) {
-    //     require(partnerVoted[_id][msg.sender] == false, "User has voted already");
-    //     _;
-    // }
-    // modifier isReputatable {
-    //     require(reputation[msg.sender] > 2, "User doesnot have enough reputation");
-    //     _;
-    // }
-    // modifier hasGoalVoteExpired(uint256 _id) {
-    //     require(block.timestamp < vote[_id].expire, "Goal has expired");
-    //     _;
-    // }
-    // modifier hasPartnerVoteExpired(uint256 _id) {
-    //     require(block.timestamp < vote[_id].expire, "Goal has expired");
-    //     _;
-    // }
-    // function approveGoal(uint256 _id) public hasToken hasVoted(_id) hasGoalVoteExpired(_id) {
-    //     vote[_id].approve += 1;
-    //     voted[_id][msg.sender] = true;
-    // }
-    // function rejectGoal(uint256 _id) public hasToken hasVoted(_id) hasGoalVoteExpired(_id) {
-    //     vote[_id].reject += 1;
-    //     voted[_id][msg.sender] = true;
-    // }
-    // function approvePartner(uint _id) public hasToken hasVotedPartner(_id) isReputatable hasPartnerVoteExpired(_id) {
-    //     partnerVote[_id].approve += 1;
-    //     partnerVoted[_id][msg.sender] = true;
-    // }
-    // function rejectPartner(uint256 _id) public hasToken hasVotedPartner(_id) isReputatable hasPartnerVoteExpired(_id) {
-    //     vote[_id].reject += 1;
-    //     voted[_id][msg.sender] = true;
-    // }
     function endGoal(uint _id) public isActive(_id) {
         require(goals[_id].owner == msg.sender, "Must be Owner");
         //distribute
         balance += goals[_id].balance;
         goals[_id].balance = 0;
-        //reward user
+        //reward owenr, partner
         //earn token function
-        reputation[msg.sender] += 2;
-
+        daoLibrary.setReputation(msg.sender,2);
+        transfer(msg.sender, 2);
+        for (uint i = 0; i < goals[_id].partners.length; i++) 
+        {
+            uint id = goals[_id].partners[i];
+            daoLibrary.setReputation(partners[id].owner, 2);
+            transfer(partners[id].owner, 2);
+        }
+        //reward contributors
         //end goal
         goals[_id].hasEnded = true;
     }
     function getReputation() public view returns(uint256) {
-        return reputation[msg.sender];
+        return daoLibrary.reputation(msg.sender);
     }
     function getGoals() public view returns(IGoal[] memory) {
         return goals;
@@ -251,42 +236,45 @@ contract GoalSight{
         return partners[_id];
     }
     modifier goalChecked(uint _id) {
-        require(vote[_id].checked == false, "Goal Vote has being checked");
+        (,,,bool checked) = daoLibrary.vote(_id);
+        require(checked == false, "Goal Vote has ended");
         _;
     }
     modifier partnerChecked(uint _id) {
-        require(partnerVote[_id].checked == false, "Partner Vote has being checked");
+        (,,,bool checked) = daoLibrary.partnerVote(_id);
+        require(checked == false, "Partner Vote has ended");
         _;
     }
-    // function endGoalVote(uint256 _id) public goalChecked(_id) { 
-    //     require(block.timestamp >= vote[_id].expire, "Vote not expired");
-    //     if (vote[_id].approve > vote[_id].reject) {
-    //         goals[_id].approved = true;
-    //         vote[_id].checked = true;
-    //     }
-    //     else if (vote[_id].approve == vote[_id].reject) {
-    //         //extends expire to 1min for the sake of hackathon
-    //         vote[_id].expire += 60;
-    //     }
-    //     else {
-    //         goals[_id].approved = false;
-    //         vote[_id].checked = true;
-    //     }
-    // }
-    function endPartnerVote(uint256 _id) public goalChecked(_id) { 
-        require(block.timestamp >= partnerVote[_id].expire, "Vote not expired");
-        if (partnerVote[_id].approve > partnerVote[_id].reject) {
-            partners[_id].approved = true;
-            partnerVote[_id].checked = true;
+    function endGoalVote(uint256 _id) public goalChecked(_id) { 
+        (uint approve,uint reject,uint expire,) = daoLibrary.vote(_id);
+        require(block.timestamp >= expire, "Vote not expired");
+        if (approve > reject) {
+            goals[_id].approved = true;
+            daoLibrary.setGoalCheck(_id,true);
         }
-        else if (partnerVote[_id].approve == partnerVote[_id].reject) {
+        else if (approve == reject) {
             //extends expire to 1min for the sake of hackathon
-            partnerVote[_id].expire += 60;
+            daoLibrary.setGoalExpire(_id,60);
+        }
+        else {
+            goals[_id].approved = false;
+            daoLibrary.setGoalCheck(_id,true);
+        }
+    }
+    function endPartnerVote(uint256 _id) public partnerChecked(_id) {
+        (uint approve,uint reject,uint expire,) = daoLibrary.partnerVote(_id);
+        require(block.timestamp >= expire, "Vote not expired");
+        if (approve > reject) {
+            partners[_id].approved = true;
+            daoLibrary.setPartnerCheck(_id,true);
+        }
+        else if (approve == reject) {
+            //extends expire to 1min for the sake of hackathon
+            daoLibrary.setPartnerExpire(_id,60);
         }
         else {
             partners[_id].approved = false;
-            partnerVote[_id].checked = true;
+            daoLibrary.setPartnerCheck(_id,true);
         }
     }
-
 }
