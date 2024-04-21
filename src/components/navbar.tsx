@@ -1,20 +1,34 @@
-import React, { useState } from 'react'
+"use client"
+import React, { useState, useEffect } from 'react'
 import UserBoard from './board/user-board'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
+import { contract, walletContract, web3 } from '../app/backend/init';
 
+async function fetch(smartcontract: any) {
+  const accounts = await window.ethereum.request({ method: 'eth_accounts'});
+  const reputation = await smartcontract.methods.getReputation().call({ from: accounts[0]});
+  console.log("accounts", accounts)
+  return reputation;
+}
 const Navbar = () => {
+  const [reputation, setReputation] = useState<any>(null);
+  async function ft() {
+    const result = await fetch(walletContract);
+    const r = web3.utils.toNumber(result);
+    setReputation(r);
+    console.log(r, result)
+  }
+  useEffect(() => {
+    ft();
+  }, [])
   const [isClicked, setIsClicked] = useState(false)
   return (
     <div className="w-full h-[5rem] bg-white/40 backdrop-blur-md px-10 max-md:px-5 flex justify-between items-center fixed z-1 shadow-sm">
-      {/* <div>menu</div> */}
       <div className='font-semibold text-md'>GoalSight</div>
       <div className="bg-red-00 w-fit px-2 flex">
-        {/* <button className="p-2 px-5 rounded-lg shadow-sm bg-blue-300">connect</button> */}
         <ConnectButton />
-        {/* <div className="w-[2rem] h-[2rem] bg-red-300 flex justify-center items-center rounded-full mx-2 cursor-pointer" onClick={() => setIsClicked(!isClicked)}>user</div> */}
+        <div className='h-full p-2 mx-2 rounded-md bg-white flex'>{reputation} <b>G</b></div>
       </div>
-      {isClicked && (<UserBoard />)}
-
     </div>
     /*  */
   )

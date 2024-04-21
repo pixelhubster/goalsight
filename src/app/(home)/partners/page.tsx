@@ -1,27 +1,27 @@
 "use client"
 import InsightCard from "@/components/card/insight-card";
-import { contract } from "../backend/init"
+import { contract } from "../../backend/init"
 import { useEffect, useState } from "react";
 
 async function fetch() {
-  const goals = await contract.methods.getGoals().call();
-  return goals;
+  const partners = await contract.methods.getPartners().call();
+  return partners;
 }
 export default function Home() {
-  const [goals, setGoals] = useState<any>(null);
+  const [partners, setPartners] = useState<any>(null);
   async function ft() {
     const result = await fetch();
-    setGoals(result);
+    setPartners(result);
   }
   useEffect(() => {
     ft();
   }, [])
-  console.log("IN", goals)
+  console.log("IN", partners)
   return (
     <>
       <div className='customgrid w-full'>
-        {goals ? (
-          (goals as Array<any>).map((goal, key) => (
+        {partners ? (
+          (partners as Array<any>).map((partner, key) => (
             <InsightCard key={key}/>
           ))
         ) : (

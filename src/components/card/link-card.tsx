@@ -15,8 +15,11 @@ const LinkCard = () => {
                 <Link href={"/"}>
                     <div className={`w-fit bg-green-00 p-1 flex justify-center items-center cursor-pointer border-b-2 border-solid ${active ===  '/' ? "border-black" : ""} mx-1`}>Insight</div>
                 </Link>
-                <Link href={"/saved"}>
-                    <div className={`w-fit bg-green-00 p-1 flex justify-center items-center cursor-pointer border-b-2 border-solid ${active ===  '/saved' ? "border-black" : ""} mx-1`}>Saved</div>
+                {/* <Link href={"/saved"}>
+                    <div className={`w-fit bg-green-00 p-1 flex justify-center items-center cursor-pointer border-b-2 border-solid ${active ===  '/saved' ? "border-black" : ""} mx-1`}>aved</div>
+                </Link> */}
+                <Link href={"/partners"}>
+                    <div className={`w-fit bg-green-00 p-1 flex justify-center items-center cursor-pointer border-b-2 border-solid ${active ===  '/partners' ? "border-black" : ""} mx-1`}>partners</div>
                 </Link>
                 <Link href={"/partner"}>
                     <div className={`w-fit bg-green-00 p-1 flex justify-center items-center cursor-pointer border-b-2 border-solid ${active ===  '/partner' ? "border-black" : ""} mx-1`}>Partner</div>

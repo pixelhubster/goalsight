@@ -7,24 +7,23 @@ import { mainnet, polygon, optimism, arbitrum, base, sepolia } from 'wagmi/chain
 
 
 const config = getDefaultConfig({
-    appName: 'GoalSight',
-    projectId: 'YOUR_PROJECT_ID',
-    chains: [sepolia, mainnet, polygon, optimism, arbitrum, base],
-    ssr: true,
-  });
-  
-  const queryClient = new QueryClient();
+  appName: 'GoalSight',
+  projectId: 'YOUR_PROJECT_ID',
+  chains: [sepolia, mainnet],
+  ssr: true,
+});
+const queryClient = new QueryClient();
 
-  
-const RainbowkitContext = ({children}: {children: React.ReactNode}) => {
+
+const RainbowkitContext = ({ children }: { children: React.ReactNode }) => {
   return (
     <WagmiProvider config={config}>
-    <QueryClientProvider client={queryClient}>
-      <RainbowKitProvider>
-        {children}
-      </RainbowKitProvider>
-    </QueryClientProvider>
-  </WagmiProvider>
+      <QueryClientProvider client={queryClient}>
+        <RainbowKitProvider>
+          {children}
+        </RainbowKitProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
   )
 }
 
