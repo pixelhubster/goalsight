@@ -1,28 +1,31 @@
 "use client"
+import { walletContract } from '@/app/backend/init';
 import PartnerCard from '@/components/card/partner-card'
 import { useForm } from '@/components/hooks/useInput'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
+async function fetch(smartcontract: any) {
+    const result = await smartcontract.methods.getPartners().call().then((res: Response)=> {
+        console.log(res);
+        return res;
+    }).catch((err: Error) => {
+        console.log(err)
+        return null
+    });
+}
 const PartnerForm = () => {
     const form = useForm()
     const [, handleOnChange] = form()
+    const [partners, setPartners] = useState<any>(null);
     useEffect(() => {
         handleOnChange("partners", [])
+        const fetchData = async () => {
+            const result = await fetch(walletContract)
+            setPartners(result)
+        }
+        fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-    const partners = [
-        {
-            id: "13434",
-            name: "Ridge Hospital"
-        },
-        {
-            id: "13432",
-            name: "Cage"
-        },
-        {
-            id: "13431",
-            name: "Mat"
-        },
-    ]
     return (
         <div className='w-full bg-gray-00'>
             <h3 className='w-full flex justify-center items-center p-2 bg-red-00 font-medium text-[14px]'>Request a Partnership</h3>
@@ -30,7 +33,7 @@ const PartnerForm = () => {
                 <label htmlFor="insight-aim" className='font-medium text-gray-800 my-2'>Partners</label>
                 {/* <input type="search" className='w-full h-[stretch] p-2 px-4 my-2 outline-none outline-solid outline-gray-300/90 outline-1 rounded-sm mb-5 placeholder:text-gray-400' /> */}
                 <div className='flex flex-wrap'>
-                    {partners.map((partner) => 
+                    {partners && partners.map((partner: any) => 
                         <PartnerCard key={partner.id} {...partner} />
                     )}
                     {/* <PartnerCard name='Ridge Hospital'/> */}

@@ -22,7 +22,7 @@ export default function Home() {
       <div className='customgrid w-full'>
         {goals ? (
           (goals as Array<any>).map((goal, key) => (
-            <InsightCard key={key}/>
+            <InsightCard key={key} props={{...goal, id: key}}/>
           ))
         ) : (
             <div>Loading</div>

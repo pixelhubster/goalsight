@@ -27,7 +27,7 @@ const Navbar = () => {
       <div className='font-semibold text-md'>GoalSight</div>
       <div className="bg-red-00 w-fit px-2 flex">
         <ConnectButton />
-        <div className='h-full p-2 mx-2 rounded-md bg-white flex'>{reputation} <b>G</b></div>
+        <div className='h-full p-2 mx-2 rounded-md bg-white flex'>{reputation}<b>R</b></div>
       </div>
     </div>
     /*  */
