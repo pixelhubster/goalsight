@@ -12,7 +12,7 @@ const page = () => {
   return (
     <Modal>
       <FormContext>
-        <Form method={"createGoal"}>
+        <Form method={"createGoal"} fn={true}>
           <CreateInsightForm />
           <LocationForm />
           <DescriptionForm />

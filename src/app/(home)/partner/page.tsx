@@ -16,28 +16,13 @@ const Page = () => {
   useEffect(() => {
     ft();
   }, [])
-  console.log("IN", partners)
-  const partner = {
-    name: "Ridge Hospital",
-    goal: "The goal",
-    description: "the description",
-    date: "",
-    email: "pixelhusbter@gmail.com",
-    location: {
-      country: "Ghana",
-      city: "Accra",
-      state: "Greater Accra",
-      locationAddress: "",
-      locationAddress2: "",
-    },
-    approved: false,
-    owner: "",
-    id: 1
-  }
+  console.log("partners", partners)
   return (
     <>
     <div className='customgridApprovalCard w-full'>
-        <ApprovalCard btn='Join as Partner' {...partner} />
+      {partners && partners.map((partner: any, key: number) => (
+        <ApprovalCard key={key} btn='Join as Partner' {...partner} id={key} />
+      ))}
     </div>
     </>
   )

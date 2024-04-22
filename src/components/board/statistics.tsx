@@ -2,19 +2,21 @@
 import { useRouter } from 'next/navigation'
 import React from 'react'
 import Link from 'next/link'
+import { web3 } from '@/app/backend/init'
 
-const Statistics = () => {
+const Statistics = (props: {balance: number, partner: number, }) => {
+    const balance = web3.utils.toNumber(props.balance || 0);
     const router = useRouter()
     return (
         <div className='w-full bg-white rounded-md p-2 mb-2'>
 
             <div className='px-2 bg-gray-300/30 rounded-md py-3 mb-2'>
                 <h3 className='text-[14px] font-mono'>Raised</h3>
-                <h4 className='text-3xl'>$231</h4>
+                <h4 className='text-3xl'>${balance}</h4>
             </div>
             <div className='w-full flex justify-between items-center'>
                 <div className='px-2 bg-gray-300/30 rounded-md py-3 mb-2 w-full mr-2'>
-                    <h4 className='text-xl'>231</h4>
+                    <h4 className='text-xl'>{props.partner}</h4>
                     <h3 className='text-[12px] font-mono'>Partners</h3>
                 </div>
                 <div className='px-2 bg-gray-300/30 rounded-md py-3 mb-2 w-full mr-2'>
@@ -23,7 +25,7 @@ const Statistics = () => {
                 </div>
                 <div className='px-2 bg-gray-300/30 rounded-md py-3 mb-2 w-full'>
                     <h4 className='text-xl'>231</h4>
-                    <h3 className='text-[12px] font-mono'>Partners</h3>
+                    <h3 className='text-[12px] font-mono'>Withdrawal</h3>
                 </div>
             </div>
 

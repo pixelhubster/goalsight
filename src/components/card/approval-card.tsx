@@ -5,21 +5,28 @@ async function fetch(id: number) {
     const result = await daoContract.methods.getPartnerVote(id).call()
     return result;
 }
-async function approve(id: number) {
-    const result = await daoWalletContract.methods.approveGoal(id).send({})
+async function approve(wallet: any, id: number, acc: Array<any>) {
+    await wallet.methods.approvePartner(id).send({from: acc[0]})
+    .then((res: Response) => console.log(res))
+    .catch((err: Error) => console.log(err))
 }
-async function reject(id: number) {
-    const result = await daoWalletContract.methods.approveGoal(id).send({})
+async function reject(wallet: any, id: number, acc: Array<any>) {
+    await wallet.methods.rejectPartner(id).send({from: acc[0]})
+    .then((res: Response) => console.log(res))
+    .catch((err: Error) => console.log(err))
 }
 
 const ApprovalCard = (props: {btn?: string, name: string, description: string, goal: string, location: any, email: string, date: string , owner: string, approved: boolean, id: number}) => {
     const [partners, setPartners] = useState<any>(null);
+    const [accounts, setAccounts] = useState<any>(null);
     const truncate = props.owner.slice(0,4) + "..." + props.owner.slice(-3);
     const createdAt = web3.utils.toNumber(props.date);
     const date = new Date(createdAt as number * 1000);
     useEffect(() => {
         async function fetchData() {
             const result = await fetch(props.id);
+            const accounts = await window.ethereum.request({method: 'eth_accounts'})
+            setAccounts(accounts)
             setPartners(result)
         }
         fetchData()
@@ -54,8 +61,10 @@ const ApprovalCard = (props: {btn?: string, name: string, description: string, g
                 <button className='w-full bg-blue-400 p-2 rounded-md font-medium mt-2'>{props.btn || "Join"}</button>
             ): (
                 <div className='flex'>
-                    <button className='w-full bg-green-400 p-2 rounded-md font-medium mt-2 ml-2'>approve {partners && (web3.utils.toNumber(partners.approve))}</button>
-                    <button className='w-full bg-red-300 p-2 rounded-md font-medium mt-2 ml-2'>reject {partners && (web3.utils.toNumber(partners.reject))}</button>
+                    <button className='w-full bg-green-400 p-2 rounded-md font-medium mt-2 ml-2'
+                    onClick={() => approve(daoWalletContract, props.id, accounts)}>approve{partners && (web3.utils.toNumber(partners.approve))}</button>
+                    <button className='w-full bg-red-300 p-2 rounded-md font-medium mt-2 ml-2'
+                    onClick={() => reject(daoWalletContract, props.id, accounts)}>reject {partners && (web3.utils.toNumber(partners.reject))}</button>
                 </div>
             )}
 

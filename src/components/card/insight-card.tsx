@@ -6,14 +6,24 @@ async function fetch(id: number) {
     const result = await daoContract.methods.getGoalVote(id).call()
     return result;
 }
-async function approve(id: number) {
-    const result = await daoWalletContract.methods.approveGoal(id).send({})
+async function approve(wallet: any, id: number, acc: Array<any>) {
+    await wallet.methods.approveGoal(id).call({from: acc[0]})
+    .then((res: Response) => console.log(res))
+    .catch((err: Error) => console.log(err))
 }
-async function reject(id: number) {
-    const result = await daoWalletContract.methods.approveGoal(id).send({})
+async function reject(wallet: any,id: number, acc: Array<any>) {
+    await wallet.methods.rejectGoal(id).send({from: acc[0]})
+    .then((res: Response) => console.log(res))
+    .catch((err: Error) => console.log(err))
 }
-async function contribute(id: number) {
-    await walletContract.methods.contribute(id).send({})
+async function refresh(id: number, acc: Array<any>) {
+    await walletContract.methods.endGoalVote(id).send({from: acc[0]})
+    .then((res: Response) => console.log(res))
+    .catch((err: Error) => console.log(err))
+}
+
+async function contribute(wallet: any, id: number, acc: Array<any>) {
+    await wallet.methods.contribute(id).send({ from: acc[0]})
     .then((res: Response) => {
         console.log(res)
     }).catch((err: Error) => {
@@ -22,17 +32,21 @@ async function contribute(id: number) {
 }
 const InsightCard = ({ props }: { props: { aim: string, owner: string, location: any, balance: number, approved: boolean, createdAt: number, goal: string, email: string, id: number, partners:  Array<any>} }) => {
     const [vote, setVote] = useState<any>(null);
+    const [accounts, setAccounts] = useState<Array<string>>([]);
     const truncate = props.owner.slice(0,4) + "..." + props.owner.slice(-3);
     const createdAt = web3.utils.toNumber(props.createdAt);
     const date = new Date(createdAt as number * 1000);
     useEffect(() => {
         async function fetchData() {
             const result = await fetch(props.id);
+            const accounts = await window.ethereum.request({method: 'eth_accounts'})
+            setAccounts(accounts)
             setVote(result)
         }
         fetchData()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+    const voteDate = vote?.expire ? new Date(web3.utils.toNumber(vote.expire) as number * 1000): null;
     return (
         <div className=" bg-gray-300 rounded-xl overflow-hidden flex flex-col justify-end max-sm:w-full shadow-lg cursor-pointer mr-2 my-2">
             <div className="w-full h-[5rem]"></div>
@@ -69,12 +83,18 @@ const InsightCard = ({ props }: { props: { aim: string, owner: string, location:
                         <div className="text-sm flex mr-5">&nbsp;</div>
                     </div>
                 </div>
+                <div onClick={() => refresh(props.id, accounts)}>refresh {(voteDate as any)?.getHours()}</div>
                 {props.approved ? (
-                    <button className='w-[stretch] shrink m-2 py-1 px-5 bg-blue-400 shadow-md rounded-md flex justify-center items-center my-2'>Contribute</button>
+                    <button className='w-[stretch] shrink m-2 py-1 px-5 bg-blue-400 shadow-md rounded-md flex justify-center items-center my-2'
+                    onClick={() => contribute(walletContract, props.id, accounts)}>Contribute</button>
                 ) : (
                     <div className='flex'>
-                        <button className='w-full shrink m-2 py-1 px-5 bg-green-400 shadow-md rounded-md flex justify-center items-center my-2'>Approve {vote && (web3.utils.toNumber(vote.approve))}</button>
-                        <button className='w-full shrink m-2 py-1 px-5 bg-red-300 shadow-md rounded-md flex justify-center items-center my-2'>Reject {vote && (web3.utils.toNumber(vote.reject))}</button>
+                        <button className='w-[stretch] shrink m-2 py-1 px-5 bg-blue-400 shadow-md rounded-md flex justify-center items-center my-2'
+                        onClick={() => contribute(walletContract, props.id, accounts)}>Contribute</button>
+                        <button className='w-full shrink m-2 py-1 px-5 bg-green-400 shadow-md rounded-md flex justify-center items-center my-2'
+                        onClick={() => approve(daoWalletContract,props.id, accounts)}>Approve {vote && (web3.utils.toNumber(vote.approve))}</button>
+                        <button className='w-full shrink m-2 py-1 px-5 bg-red-300 shadow-md rounded-md flex justify-center items-center my-2'
+                        onClick={() => reject(daoWalletContract, props.id, accounts)}>Reject {vote && (web3.utils.toNumber(vote.reject))}</button>
                     </div>
                 )}
             </div>
