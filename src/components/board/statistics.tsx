@@ -1,12 +1,12 @@
-"use client"
-import { useRouter } from 'next/navigation'
 import React from 'react'
-import Link from 'next/link'
 import { web3 } from '@/app/backend/init'
+import ContributeCard from '../card/contribute-card';
+import EndGoalButton from '../card/endGoal-card';
+import RewardButton from '../card/reward-card';
+import WithdrawButton from '../card/withdraw-card';
 
-const Statistics = (props: {balance: number, partner: number, }) => {
+const Statistics = (props: {balance: number, partner: number,id: number, onWait: number, hasEnded: boolean}) => {
     const balance = web3.utils.toNumber(props.balance || 0);
-    const router = useRouter()
     return (
         <div className='w-full bg-white rounded-md p-2 mb-2'>
 
@@ -20,11 +20,11 @@ const Statistics = (props: {balance: number, partner: number, }) => {
                     <h3 className='text-[12px] font-mono'>Partners</h3>
                 </div>
                 <div className='px-2 bg-gray-300/30 rounded-md py-3 mb-2 w-full mr-2'>
-                    <h4 className='text-xl'>231</h4>
-                    <h3 className='text-[12px] font-mono'>Contributors</h3>
+                    <h4 className='text-xl'>{props.onWait}</h4>
+                    <h3 className='text-[12px] font-mono'>pending</h3>
                 </div>
                 <div className='px-2 bg-gray-300/30 rounded-md py-3 mb-2 w-full'>
-                    <h4 className='text-xl'>231</h4>
+                    <h4 className='text-xl'>0</h4>
                     <h3 className='text-[12px] font-mono'>Withdrawal</h3>
                 </div>
             </div>
@@ -37,10 +37,17 @@ const Statistics = (props: {balance: number, partner: number, }) => {
                     food and hope to people all over the world. The world is gratiful to have you.
                 </h4>
             </div>
-
+{/* 
             <button className='w-full bg-blue-400 p-2 rounded-md font-medium mb-1' onClick={() => router.push("/insight/showcase")}>
-                Show working</button>
-            <button className='w-full bg-blue-400 p-2 rounded-md font-medium mb-1'>Contribute</button>
+                Show working</button> */}
+            {/* <button className='w-full bg-blue-400 p-2 rounded-md font-medium mb-1'>Contribute</button> */}
+            <ContributeCard id={props.id}/>
+            <EndGoalButton id={props.id}/>
+            <WithdrawButton id={props.id} />
+            {props.hasEnded && (
+                <RewardButton id={props.id} />
+            )}
+            {/* <button className='w-full bg-red-300 p-2 rounded-md font-medium mb-1'>End Project</button> */}
         </div>
     )
 }

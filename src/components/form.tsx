@@ -11,15 +11,18 @@ const Form = ({ children, btn, method, fn }: { children: React.ReactNode[], btn?
     const router = useRouter()
     const [goal, partner] = useFunction();
     const [index, setIndex] = useState<number>(0)
+    const [loading, setLoading] = useState<boolean>(false)
+
     const submitForm = async () => {
+        setLoading(true)
         if (index >= 0 && index < (children.length - 1)) {
             setIndex(index + 1)
         } else {
             setIndex(children.length - 1)
-
-            const response = fn ? await goal(walletContract, value) : partner(walletContract, value);
+            const response = fn ? await goal(walletContract, value) : await partner(walletContract, value);
             console.log(response)
         }
+        setLoading(false)
     }
     return (
         <div className='w-[30rem] bg-white rounded-md overflow-hidden shadow-lg'>
@@ -34,7 +37,7 @@ const Form = ({ children, btn, method, fn }: { children: React.ReactNode[], btn?
                 <div className='flex'>
                     {/* <div className='w-[7px] cursor-pointer m-[1px] h-[7px] bg-red-300 rounded-full flex justify-center items-center'></div> */}
                 </div>
-                <button type='submit' className='bg-blue-300 p-1 px-5 rounded-md shadow-sm' onClick={() => submitForm()}>{index === children.length - 1 ? btn || "Submit" : "Continue"}</button>
+                <button type='submit' className='bg-blue-300 p-1 px-5 r "Submit" : "ounded-md shadow-sm' onClick={() => submitForm()}>{index === children.length - 1 ? (btn || "Submit") : "Continue"}</button>
             </div>
         </div>
     )

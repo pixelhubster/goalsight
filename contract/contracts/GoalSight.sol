@@ -171,14 +171,14 @@ contract GoalSight is ERC20 {
         }
     }
 
-    function withdraw(uint _id, string memory _purpose) public payable {
+    function withdraw(uint _id, string memory _purpose, uint _amount) public payable {
         for (uint i=0; i<goals[_id].partners.length; i++) 
         {
             uint id = goals[_id].partners[i];
             if (partners[id].owner == msg.sender) {
-                require(msg.value > 0 && msg.value < goals[_id].balance, "Withdrawal amount must be between 0 and balance");
-                payable(msg.sender).transfer(msg.value);
-                emit Ledger(_id,msg.sender,id,msg.value,_purpose);
+                require(_amount > 0 && _amount < goals[_id].balance, "Withdrawal amount must be between 0 and balance");
+                payable(msg.sender).transfer(_amount);
+                emit Ledger(_id,msg.sender,id,_amount,_purpose);
                 goals[_id].balance -= msg.value;
             }
         }

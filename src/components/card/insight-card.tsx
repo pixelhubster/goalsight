@@ -1,67 +1,20 @@
-"use client"
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import BookmarkCard from './bookmark-card'
-import { contract, daoContract, daoWalletContract, walletContract, web3 } from '@/app/backend/init'
+import { web3 } from '@/app/backend/init'
 import Link from 'next/link'
-async function fetch(id: number) {
-    const result = await daoContract.methods.getGoalVote(id).call()
-    return result;
-}
-// async function conversion(amount: number) {
-//     const result = await contract.methods.getConversion(amount).send()
-//     console.log(result)
-//     return result;
-// }
-async function approve(wallet: any, id: number, acc: Array<any>) {
-    await wallet.methods.approveGoal(id).send({ from: acc[0] })
-        .then((res: Response) => console.log(res))
-        .catch((err: Error) => console.log(err))
-}
-async function reject(wallet: any, id: number, acc: Array<any>) {
-    await wallet.methods.rejectGoal(id).send({ from: acc[0] })
-        .then((res: Response) => console.log(res))
-        .catch((err: Error) => console.log(err))
-}
-async function refresh(id: number, acc: Array<any>) {
-    await walletContract.methods.endGoalVote(id).send({ from: acc[0] })
-        .then((res: Response) => console.log(res))
-        .catch((err: Error) => console.log(err))
-}
+import InsightButton from './insight-button'
 
-async function contribute(wallet: any, id: number, acc: Array<any>) {
-    await wallet.methods.contribute(id).send({ from: acc[0], value: 20000 })
-        .then((res: Response) => {
-            console.log(res)
-        }).catch((err: Error) => {
-            console.log(err)
-        })
-}
-const InsightCard = ({ props }: { props: { aim: string, owner: string, location: any, balance: number, approved: boolean, createdAt: number, goal: string, email: string, id: number, partners: Array<any> } }) => {
-    const [vote, setVote] = useState<any>(null);
-    const [accounts, setAccounts] = useState<Array<string>>([]);
-    // const [balance, setBalance] = useState<any>();
+const InsightCard = async ({ props }: { props: { aim: string, owner: string, location: any, balance: number, approved: boolean, createdAt: number, goal: string, email: string, id: number, partners: Array<any> } }) => {
     const truncate = props.owner.slice(0, 4) + "..." + props.owner.slice(-3);
     const createdAt = web3.utils.toNumber(props.createdAt);
     const date = new Date(createdAt as number * 1000);
-    useEffect(() => {
-        async function fetchData() {
-            const result = await fetch(props.id);
-            const accounts = await window.ethereum.request({ method: 'eth_accounts' })
-            setAccounts(accounts)
-            setVote(result)
-        }
-        fetchData()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
-    const voteDate = vote?.expire ? new Date(web3.utils.toNumber(vote.expire) as number * 1000) : null;
-    console.log(vote)
     return (
-        <div className=" bg-gray-300 rounded-xl overflow-hidden flex flex-col justify-end max-sm:w-full shadow-lg cursor-pointer mr-2 my-2">
+        <div className=" bg-gray-300 rounded-xl overflow-hidden flex flex-col justify-end max-sm:w-full shadow-lg cursor-pointer mr-2 my-2 h-fit">
             <div className="w-full h-[5rem]"></div>
             <div className="w-full bg-gray-400 rounded-xl overflow-hidden">
-                <div className="w-full flex ">
+                <div className="w-full flex">
 
-                    <div className="p-4 bg-gray-400 px-4 w-full">
+                    <div className="p-4 pb-0 bg-gray-400 px-4 w-full">
                         <Link href={`/insight/${props.id}`}>
                             <h3 className="text-md line-clamp-3 overflow-hidden text-ellipsis font-medium">{props.aim}</h3>
                         </Link>
@@ -71,9 +24,8 @@ const InsightCard = ({ props }: { props: { aim: string, owner: string, location:
                         <div className="text-[12px] m-1 ml-0 text-gray-800">
                             <p>{props.email}</p>
                             <p>{props.location.city},{props.location.country} </p>
-                            {/* <p className="px-2 text-[12px]">{props.goal}</p> */}
                         </div>
-                        <h3 className="text-sm line-clamp-3 overflow-hidden text-ellipsis">{props.goal}</h3>
+                        {/* <h3 className="text-sm line-clamp-3 overflow-hidden text-ellipsis bg-red-400">{props.goal}</h3> */}
                         <div className="flex flex-auto flex-wrap">
                             {props.partners.map((partner, key) => (
                                 <div key={key} className="p-1 bg-green-100 rounded-md text-[12px] px-3 m-1 ml-0 overflow-hidden whitespace-nowrap text-ellipsis w-[4rem]">{partner.name}</div>
@@ -81,32 +33,18 @@ const InsightCard = ({ props }: { props: { aim: string, owner: string, location:
                         </div>
                     </div>
 
-                    <div className="p-2 bg-gray-400 px-4 flex flex-col items-start pr-5 overflow-hidden">
+                    <div className="w-fit p-2 flex flex-col items-start justify-center mr-4 h-fit">
                         <div className="w-[min-content] self-end bg-gray-00 p-1 flex justify-end">
                             <BookmarkCard />
                         </div>
                         <h3 className="text-lg ml-0 font-medium w-full">${web3.utils.toNumber(props.balance)}</h3>
                         <div className="flex flex-wrap bg-red-00 text-gray-800 w-full">
-                            {/* <h3 className="text-[12px] mr-1 ">404 contributors</h3>
-                            <h3 className="text-[12px] mr-1">404 evidence </h3> */}
                         </div>
                         <div className="text-sm flex mr-5">&nbsp;</div>
                     </div>
                 </div>
-                <div onClick={() => refresh(props.id, accounts)}>refresh</div>
-                {props.approved ? (
-                    <button className='w-[stretch] shrink m-2 py-1 px-5 bg-blue-400 shadow-md rounded-md flex justify-center items-center my-2'
-                        onClick={() => contribute(walletContract, props.id, accounts)}>Contribute</button>
-                ) : (
-                    <div className='flex'>
-                        <button className='w-[stretch] shrink m-2 py-1 px-5 bg-blue-400 shadow-md rounded-md flex justify-center items-center my-2'
-                            onClick={() => contribute(walletContract, props.id, accounts)}>Contribute</button>
-                        <button className='w-full shrink m-2 py-1 px-5 bg-green-400 shadow-md rounded-md flex justify-center items-center my-2'
-                            onClick={() => approve(daoWalletContract, props.id, accounts)}>Approve {vote && (web3.utils.toNumber(vote.approve))}</button>
-                        <button className='w-full shrink m-2 py-1 px-5 bg-red-300 shadow-md rounded-md flex justify-center items-center my-2'
-                            onClick={() => reject(daoWalletContract, props.id, accounts)}>Reject {vote && (web3.utils.toNumber(vote.reject))}</button>
-                    </div>
-                )}
+                <h3 className="mx-4 text-sm line-clamp-3 overflow-hidden text-ellipsis bg-red-00">{props.goal}</h3>
+                <InsightButton id={props.id} approved={props.approved} />
             </div>
         </div>
     )

@@ -1,6 +1,5 @@
-"use client"
-import { contract, web3 } from '@/app/backend/init';
-import React, { useEffect, useState } from 'react'
+import { web3 } from '@/app/backend/init';
+import React from 'react'
 
 
 const OverviewBoard = (props: {id: number, data: any}) => {
@@ -32,7 +31,6 @@ const OverviewBoard = (props: {id: number, data: any}) => {
             <h4 className='text-[15px] text-gray-800 px-2'>{props.data?.description}</h4>
           </div>
               {/* <PartnerCard name='ridge' /> */}
-
         </div>
       </div>
   )

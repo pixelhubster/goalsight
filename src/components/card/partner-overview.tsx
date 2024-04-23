@@ -1,6 +1,7 @@
 import React from 'react'
+import AcceptPartnerButton from './acceptPartner-card'
 
-const PartnerOverview = (props: {goal: string, name: string, location: {country: string, city: string}, pending: boolean, owner: string, account: string}) => {
+const PartnerOverview = (props: { goal: string, name: string, location: { country: string, city: string }, pending: boolean, owner: string, account: string, id: number }) => {
     return (
         <div className='w-full bg-white rounded-md p-2 mb-2'>
 
@@ -12,16 +13,16 @@ const PartnerOverview = (props: {goal: string, name: string, location: {country:
             </div>
 
             <div className='px-2'>
-                <div className="text-[12px] flex m-1 ml-0 text-gray-800"><p>{props.location.city}, {props.location.country}</p> 
-                {/* <p className="px-2 text-[12px]">24 views</p>  */}
+                <div className="text-[12px] flex m-1 ml-0 text-gray-800"><p>{props.location.city}, {props.location.country}</p>
+                    {/* <p className="px-2 text-[12px]">24 views</p>  */}
                 </div>
             </div>
             <div className='px-2 bg-gray-300/30 rounded-md py-3'>
                 <h3 className='text-[14px] font-mono'>Goal</h3>
                 <p className='text-[12px] p-1'>{props.goal}</p>
             </div>
-            {props.pending && props.owner  === props.account && (
-                <div>Approve</div>
+            {props.pending && (
+                <AcceptPartnerButton id={props.id} />
             )}
         </div>
     )
