@@ -1,13 +1,13 @@
 "use client"
 import React, { useState } from 'react'
 import { useForm } from '../hooks/useInput'
-
-const PartnerCard = (props : {name: string, id: string}) => {
+0
+const PartnerCard = (props : {name: string, id: number}) => {
     const [selected, setSelected] = useState<boolean>(false)
     const form = useForm()
     const [value, handleOnChange] = form()
-    const handleClick = (id: string) => {
-        var partners = value.partners as Array<string>
+    const handleClick = (id: number) => {
+        var partners = value.partners as Array<number>
         if (partners.includes(id)) {
             partners = partners.filter(partner => partner !== id)
         } else (

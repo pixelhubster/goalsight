@@ -1,10 +1,13 @@
 "use client"
 import InsightCard from "@/components/card/insight-card";
 import { contract } from "../backend/init"
+// import { contract } from "@/components/context/contractContext";
 import { useEffect, useState } from "react";
 
 async function fetch() {
   const goals = await contract.methods.getGoals().call();
+  // const daoadd = await contract.methods.daoLibrary().call();
+  // console.log(daoadd)
   return goals;
 }
 export default function Home() {
@@ -16,7 +19,7 @@ export default function Home() {
   useEffect(() => {
     ft();
   }, [])
-  console.log("IN", goals)
+  console.log("goals", goals)
   return (
     <>
       <div className='customgrid w-full'>
@@ -25,7 +28,7 @@ export default function Home() {
             <InsightCard key={key} props={{...goal, id: key}}/>
           ))
         ) : (
-            <div>Loading</div>
+            <div>Loading...</div>
         )}
       </div>
     </>

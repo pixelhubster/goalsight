@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 import { MdClose } from "react-icons/md"
-const Modal = ({ children }: { children: React.ReactNode }) => {
+const Modal = ({ children }: { children?: React.ReactNode }) => {
   const y_value = window.scrollY
   const router = useRouter()
   const closeModal = () => router.back()

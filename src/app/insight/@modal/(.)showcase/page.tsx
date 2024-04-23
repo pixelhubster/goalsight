@@ -6,10 +6,10 @@ import React from 'react'
 const page = () => {
   return (
     <Modal>
-      <Form btn=''>
+      {/* <Form btn=''>
         <AddImage />
         <AddImage />
-      </Form>
+      </Form> */}
     </Modal>
   )
 }

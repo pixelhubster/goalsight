@@ -10,7 +10,7 @@ const page = () => {
   return (
     <Modal>
       <FormContext>
-        <Form method={"becomePartner"}>
+        <Form method={"becomePartner"} fn={false}>
           <BecomePartner />
           <LocationForm />
           <DescriptionForm />

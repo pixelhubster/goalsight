@@ -1,8 +1,8 @@
 "use client"
 import React, { useContext, useState } from 'react'
 
-const FormContext = React.createContext()
-const UpdateDetailsContext = React.createContext()
+const FormContext = React.createContext({})
+const UpdateDetailsContext = React.createContext({})
 
 export function useDetails() {
     return [useContext(FormContext), useContext(UpdateDetailsContext)]

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const PartnerOverview = (props: {goal: string, name: string, location: {country: string, city: string}}) => {
+const PartnerOverview = (props: {goal: string, name: string, location: {country: string, city: string}, pending: boolean, owner: string, account: string}) => {
     return (
         <div className='w-full bg-white rounded-md p-2 mb-2'>
 
@@ -20,8 +20,9 @@ const PartnerOverview = (props: {goal: string, name: string, location: {country:
                 <h3 className='text-[14px] font-mono'>Goal</h3>
                 <p className='text-[12px] p-1'>{props.goal}</p>
             </div>
-
-
+            {props.pending && props.owner  === props.account && (
+                <div>Approve</div>
+            )}
         </div>
     )
 }

@@ -21,12 +21,12 @@ const LinkCard = () => {
                 <Link href={"/partners"}>
                     <div className={`w-fit bg-green-00 p-1 flex justify-center items-center cursor-pointer border-b-2 border-solid ${active ===  '/partners' ? "border-black" : ""} mx-1`}>partners</div>
                 </Link>
-                <Link href={"/partner"}>
+                {/* <Link href={"/partner"}>
                     <div className={`w-fit bg-green-00 p-1 flex justify-center items-center cursor-pointer border-b-2 border-solid ${active ===  '/partner' ? "border-black" : ""} mx-1`}>Partner</div>
                 </Link>
                 <Link href={"/approver"}>
                     <div className={`w-fit bg-green-00 p-1 flex justify-center items-center cursor-pointer border-b-2 border-solid ${active ===  '/approver' ? "border-black" : ""} mx-1`}>Approver</div>
-                </Link>
+                </Link> */}
             </div>
         </div>
     )

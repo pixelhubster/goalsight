@@ -38,8 +38,8 @@
       ]
     },
     "/home/kaleel/Documents/projects/webdev/goalsight/contract/contracts/Dao.sol": {
-      "lastModificationDate": 1713546281506,
-      "contentHash": "65c71fde09ecdb63adb5763a1852de92",
+      "lastModificationDate": 1713822618872,
+      "contentHash": "ea50d733b71734b2daa4d90d3e761af7",
       "sourceName": "contracts/Dao.sol",
       "solcConfig": {
         "version": "0.8.24",
@@ -74,8 +74,8 @@
       ]
     },
     "/home/kaleel/Documents/projects/webdev/goalsight/contract/contracts/GoalSight.sol": {
-      "lastModificationDate": 1713615457682,
-      "contentHash": "0a6dad74e2c7747533d785c05b790efe",
+      "lastModificationDate": 1713823001855,
+      "contentHash": "c85de72765c0fd5d139c06f009826233",
       "sourceName": "contracts/GoalSight.sol",
       "solcConfig": {
         "version": "0.8.24",

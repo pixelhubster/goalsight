@@ -134,7 +134,7 @@ contract GoalSight is ERC20 {
             hasEnded: false
         });
         goals.push(_newGoal);
-        daoLibrary.setGoalExpire(goals.length-1, block.timestamp+60);
+        daoLibrary.setGoalExpire(goals.length-1, block.timestamp + (5 * 60));
     }
 
     function becomePartner(
@@ -157,9 +157,9 @@ contract GoalSight is ERC20 {
             approved: false
         });
         partners.push(_newPartner);
-        daoLibrary.setPartnerExpire(partners.length -1, block.timestamp + 60);
+        daoLibrary.setPartnerExpire(partners.length -1, block.timestamp + (5 * 60));
     }
-
+    
     function acceptPartnership(uint256 _id) public {
         for (uint i =0; i<goals[_id].onWait.length; i++) 
         {
@@ -245,8 +245,8 @@ contract GoalSight is ERC20 {
             daoLibrary.setGoalCheck(_id,true);
         }
         else if (approve == reject) {
-            //extends expire to 1min for the sake of hackathon
-            daoLibrary.setGoalExpire(_id,60);
+            //extends expire to 5min for the sake of hackathon
+            daoLibrary.setGoalExpire(_id,block.timestamp + (5 * 60));
         }
         else {
             goals[_id].approved = false;
@@ -261,8 +261,8 @@ contract GoalSight is ERC20 {
             daoLibrary.setPartnerCheck(_id,true);
         }
         else if (approve == reject) {
-            //extends expire to 1min for the sake of hackathon
-            daoLibrary.setPartnerExpire(_id,60);
+            //extends expire to 5min for the sake of hackathon
+            daoLibrary.setPartnerExpire(_id, block.timestamp + (5 * 60));
         }
         else {
             partners[_id].approved = false;

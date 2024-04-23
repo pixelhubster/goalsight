@@ -36,15 +36,15 @@ contract Dao {
         _;
     }
     modifier isReputatable {
-        require(reputation[msg.sender] > 2, "User doesnot have enough reputation");
+        require(reputation[msg.sender] > 2, "User does not have enough reputation");
         _;
     }
     modifier hasGoalVoteExpired(uint256 _id) {
-        require(block.timestamp < vote[_id].expire, "Goal has expired");
+        require(block.timestamp < vote[_id].expire, "Goal Vote has expired");
         _;
     }
     modifier hasPartnerVoteExpired(uint256 _id) {
-        require(block.timestamp < vote[_id].expire, "Goal has expired");
+        require(block.timestamp < vote[_id].expire, "Partner Vote has expired");
         _;
     }
     modifier hasToken {
@@ -67,10 +67,10 @@ contract Dao {
         voted[_id][msg.sender] = true;
     }
     function setGoalExpire(uint _id, uint time) public {
-        vote[_id].expire += time;
+        vote[_id].expire = time;
     }
     function setPartnerExpire(uint _id, uint time) public {
-        partnerVote[_id].expire += time;
+        partnerVote[_id].expire = time;
     }
     function setPartnerCheck(uint _id, bool boolean) public {
         partnerVote[_id].checked = boolean;
