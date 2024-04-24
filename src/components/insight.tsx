@@ -39,38 +39,33 @@ const Insight = async ({ id }: { id: number | undefined }) => {
     <>
       <div className='w-full h-[10rem] bg-green-300'></div>
       <div className='w-full h-full bg-gray-50 p-2 flex xl:px-10 justify-center'>
-
-        {/* <div className='w-[30rem] max-md:w-[20rem] bg-green-00 max-sm:hidden mr-2'>
-          Approved<br/>
-          {partners.map((partner: any, key: number) => (
-            <PartnerOverview key={key} {...partner} account={accounts[0]}/>
-          ))}
-          Pending
-          {pending.map((partner: any, key: number) => (
-            <PartnerOverview key={key} {...partner} account={accounts[0]} pending={true}/>
-          ))}
-
-        </div> */}
-
-        <div className='w-full md:w-[80%] lg:w-[65%]'>
+        <div className='w-full md:w-[80%] lg:w-[65%] bg-white shadow-md overflow-hidden'>
           <OverviewBoard id={id as number} data={goal} />
-          <Statistics balance={goal?.balance} partner={goal?.partners.length} onWait={goal?.onWait.length} id={id as number} hasEnded={goal?.hasEnded} />
-          {partners.map((partner: any, key: number) => (
-            <PartnerOverview key={key} {...partner} account={accounts[0]} id={key}/>
-          ))}
-          <p className='text-[12px] p-2'>Pending</p>
-          {pending.map((partner: any, key: number) => (
-            <PartnerOverview key={key} {...partner} id={key} account={accounts[0]} pending={true}/>
-          ))}
+          <Statistics balance={goal.balance} partner={goal.partners.length} onWait={goal.onWait.length} id={id as number} hasEnded={goal.hasEnded} />
+          <div className='w-full flex flex-col px-5'>
+            {partners && (
+              <>
+                <p className='text-[12px] text-gray-500 p-2'>Approved</p>
+                <div className='flex flex-col mr-2 customgrid'>
+                  {partners.map((partner: any, key: number) => (
+                    <PartnerOverview key={key} {...partner} account={accounts[0]} id={key} />
+                  ))}
+                </div>
+              </>
+            )}
 
-          {/* <PostCard /> */}
+            {pending && (
+              <>
+                <p className='text-[12px] text-gray-500 p-2'>Pending</p>
+                <div className='flex flex-col customgrid'>
+                  {pending.map((partner: any, key: number) => (
+                    <PartnerOverview key={key} {...partner} id={key} account={accounts[0]} pending={true} />
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
         </div>
-
-        {/* <div className='w-[40rem] bg-green-00 max-lg:hidden ml-2'>
-          <Statistics balance={goal?.balance} partner={goal?.partners.length} />
-          <Ledger />
-        </div> */}
-
       </div>
     </>
   )

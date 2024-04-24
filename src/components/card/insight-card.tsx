@@ -1,13 +1,23 @@
 import React from 'react'
 import BookmarkCard from './bookmark-card'
-import { web3 } from '@/app/backend/init'
+import { contract, web3 } from '@/app/backend/init'
 import Link from 'next/link'
 import InsightButton from './insight-button'
+async function fetchPartner(id: number) {
+    const result = await contract.methods.getPartner(id).call();
+    return result;
+}
 
 const InsightCard = async ({ props }: { props: { aim: string, owner: string, location: any, balance: number, approved: boolean, createdAt: number, goal: string, email: string, id: number, partners: Array<any> } }) => {
     const truncate = props.owner.slice(0, 4) + "..." + props.owner.slice(-3);
     const createdAt = web3.utils.toNumber(props.createdAt);
     const date = new Date(createdAt as number * 1000);
+    const partners: any = [];
+    for (let i = 0; i < props.partners.length; i++) {
+        let res = await fetchPartner(props.partners[i]);
+        partners.push(res)
+    }
+    // return response;
     return (
         <div className=" bg-gray-300 rounded-xl overflow-hidden flex flex-col justify-end max-sm:w-full shadow-lg cursor-pointer mr-2 my-2 h-fit">
             <div className="w-full h-[5rem]"></div>
@@ -27,8 +37,8 @@ const InsightCard = async ({ props }: { props: { aim: string, owner: string, loc
                         </div>
                         {/* <h3 className="text-sm line-clamp-3 overflow-hidden text-ellipsis bg-red-400">{props.goal}</h3> */}
                         <div className="flex flex-auto flex-wrap">
-                            {props.partners.map((partner, key) => (
-                                <div key={key} className="p-1 bg-green-100 rounded-md text-[12px] px-3 m-1 ml-0 overflow-hidden whitespace-nowrap text-ellipsis w-[4rem]">{partner.name}</div>
+                            {partners.map((partner: any, key: number) => (
+                                <div key={key} className="p-1 bg-green-100 rounded-md text-[12px] px-3 m-1 ml-0 overflow-hidden whitespace-nowrap text-ellipsis w-[5rem]">{partner.name}</div>
                             ))}
                         </div>
                     </div>

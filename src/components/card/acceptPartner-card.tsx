@@ -23,7 +23,7 @@ const AcceptPartnerButton = (props: { id: number }) => {
         getAccount()
     }, [])
     return (
-        <button className='w-full bg-blue-400 p-2 rounded-md font-medium mb-1' disabled={loading} onClick={() => accept(walletContract, props.id, accounts)}>
+        <button className='w-full bg-blue-400 p-2 rounded-md font-medium mb-1 text-sm shadow-md' disabled={loading} onClick={() => accept(walletContract, props.id, accounts)}>
             {loading && (<p>loading...</p>)} Accept Partnership
         </button>
     )

@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react'
 const ContributeCard = (props: { id: number }) => {
     const router = useRouter()
     return (
-        <button className='w-[stretch] bg-blue-400 p-2 rounded-md font-medium mb-1 m-2'
+        <button className='w-[stretch] bg-blue-400 p-2 rounded-md font-medium mb-1 m-2 text-sm shadow-md'
             onClick={() => router.push(`/contribute?id=${props.id}`)}
         >Contribute</button>
     )

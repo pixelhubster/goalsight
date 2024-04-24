@@ -51,9 +51,9 @@ const PartnerButton = (props: { approved: boolean, id: number }) => {
             {/* <button className='w-full bg-blue-400 p-2 rounded-md font-medium mt-2'>{props.btn || "Join"}</button> */}
             {!props.approved && (
                 <div className='flex'>
-                    <button className='w-full bg-green-400 p-2 rounded-md font-medium mt-2'
+                    <button className='w-full bg-green-400 p-2 rounded-md font-medium mt-2 text-sm shadow-md'
                         onClick={() => approve(daoWalletContract, props.id, accounts)} disabled={loading}>approve {partners && (web3.utils.toNumber(partners.approve))}</button>
-                    <button className='w-full bg-red-300 p-2 rounded-md font-medium mt-2 ml-2'
+                    <button className='w-full bg-red-300 p-2 rounded-md font-medium mt-2 ml-2 text-sm shadow-md'
                         onClick={() => reject(daoWalletContract, props.id, accounts)} disabled={loading}>reject {partners && (web3.utils.toNumber(partners.reject))}</button>
                 </div>
             )}

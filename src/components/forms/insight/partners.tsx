@@ -19,7 +19,7 @@ const PartnerForm = () => {
     const [value, handleOnChange] = form()
     console.log(value)
     const [partners, setPartners] = useState<any>(null);
-    console.log(partners)
+    // console.log(partners)
     useEffect(() => {
         handleOnChange("partners", [])
         const fetchData = async () => {

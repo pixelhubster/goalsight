@@ -12,7 +12,6 @@ export default async function Home() {
     partners = result;
   }
   await ft()
-  console.log("partners", partners)
   return (
     <>
       <div className='customgrid w-full min-h-screen'>

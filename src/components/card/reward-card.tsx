@@ -23,7 +23,8 @@ const RewardButton = (props: { id: number }) => {
         getAccount()
     }, [])
     return (
-        <button className='w-full bg-red-300 p-2 rounded-md font-medium mb-1' disabled={loading} onClick={() => reward(walletContract, props.id, accounts)}>
+        <button className='w-[stretch] bg-green-400 p-2 rounded-md font-medium mb-1 m-2 text-sm shadow-md'
+        disabled={loading} onClick={() => reward(walletContract, props.id, accounts)}>
             {loading && (<p>loading...</p>)} Get Reward
         </button>
     )

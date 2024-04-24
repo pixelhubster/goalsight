@@ -161,14 +161,17 @@ contract GoalSight is ERC20 {
     }
     
     function acceptPartnership(uint256 _id) public {
+        uint256[] memory temp;
         for (uint i =0; i<goals[_id].onWait.length; i++) 
         {
             uint id = goals[_id].onWait[i];
-            if (msg.sender == partners[id].owner) {
-                delete goals[_id].onWait[i];
+            if (msg.sender == partners[id].owner && partners[id].approved == true) {
                 goals[_id].partners.push(id);
+            } else {
+                // temp.push(goals[_id].onWait[i]);
             }
         }
+        goals[_id].onWait = temp;
     }
 
     function withdraw(uint _id, string memory _purpose, uint _amount) public payable {
@@ -179,7 +182,7 @@ contract GoalSight is ERC20 {
                 require(_amount > 0 && _amount < goals[_id].balance, "Withdrawal amount must be between 0 and balance");
                 payable(msg.sender).transfer(_amount);
                 emit Ledger(_id,msg.sender,id,_amount,_purpose);
-                goals[_id].balance -= msg.value;
+                goals[_id].balance -= _amount;
             }
         }
         // revert("Sender is not partner for the specified goal");
@@ -197,8 +200,8 @@ contract GoalSight is ERC20 {
     }
 
     function reward(uint _id) public {
-        require(contributors[_id][msg.sender].rewarded == false, "Sender has already being rewarded");
         require(goals[_id].hasEnded == true, "Goal has not ended yet");
+        require(contributors[_id][msg.sender].rewarded == false, "Sender has already being rewarded");
         uint _balance = contributors[_id][msg.sender].balance;
         require(_balance >0,"No contributions made to this goal");
         transfer(msg.sender, _balance * (3 * 1e17));

@@ -27,16 +27,6 @@ async function refresh(id: number, acc: Array<any>) {
         .then((res: Response) => console.log(res))
         .catch((err: Error) => console.log(err))
 }
-
-async function contribute(wallet: any, id: number, acc: Array<any>) {
-    await wallet.methods.contribute(id).send({ from: acc[0], value: 20000 })
-        .then((res: Response) => {
-            console.log(res)
-        }).catch((err: Error) => {
-            console.log(err)
-        })
-}
-
 const InsightButton = (props: {approved: boolean, id: number}) => {
         const [vote, setVote] = useState<any>(null);
         const [accounts, setAccounts] = useState<Array<string>>([]);
@@ -53,14 +43,12 @@ const InsightButton = (props: {approved: boolean, id: number}) => {
         <>
             <div onClick={() => refresh(props.id, accounts)}>refresh</div>
             {props.approved ? (
-                // <button className='w-[stretch] shrink m-2 py-1 px-5 bg-blue-400 shadow-md rounded-md flex justify-center items-center my-2'
-                //     onClick={() => contribute(walletContract, props.id, accounts)}>Contribute</button>
                 <ContributeCard id={props.id}/>
             ) : (
                 <div className='flex'>
-                    <button className='w-full shrink m-2 py-1 px-5 bg-green-400 shadow-md rounded-md flex justify-center items-center my-2'
+                    <button className='w-full shrink m-2 py-1 px-5 bg-green-400 shadow-md rounded-md flex justify-center items-center my-2 text-sm'
                         onClick={() => approve(daoWalletContract, props.id, accounts)}>Approve &nbsp; {vote && (web3.utils.toNumber(vote.approve))}</button>
-                    <button className='w-full shrink m-2 py-1 px-5 bg-red-300 shadow-md rounded-md flex justify-center items-center my-2'
+                    <button className='w-full shrink m-2 py-1 px-5 bg-red-300 shadow-md rounded-md flex justify-center items-center my-2  text-sm'
                         onClick={() => reject(daoWalletContract, props.id, accounts)}>Reject &nbsp; {vote && (web3.utils.toNumber(vote.reject))}</button>
                 </div>
             )}
