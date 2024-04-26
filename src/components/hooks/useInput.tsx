@@ -1,5 +1,6 @@
 "use client"
 import React, { useContext, useState } from 'react'
+import { useNotification } from '../context/notificationContext'
 
 const FormProvider = React.createContext({})
 const FormFunction = React.createContext({})
@@ -9,9 +10,27 @@ export function useForm() {
 export function useFunction() {
     return useContext(FormFunction) as any;
 }
-
 async function goal(smartcontract: any, arg: any, method: any) {
     const accounts = await window.ethereum.request({method: 'eth_accounts'})
+    // const result = await smartcontract.methods.createGoal(
+    //         arg.aim,
+    //         arg.email,
+    //         {
+    //             country: arg.country,
+    //             state: arg.state,
+    //             city: arg.city,
+    //             locationAddress: arg.locationAddress,
+    //             locationAddress2: arg.locationAltaddress
+    //         },
+    //         arg.description,
+    //         arg.goal,
+    //         arg.partners
+    // ).call().then((res: Response) => {
+    //     console.log(res)
+    // }).catch((error: Error) => {
+        
+    //     console.log(error)
+    // })
     const result = await smartcontract.methods.createGoal(
             arg.aim,
             arg.email,

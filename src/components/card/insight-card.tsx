@@ -1,6 +1,6 @@
 import React from 'react'
 import BookmarkCard from './bookmark-card'
-import { contract, web3 } from '@/app/backend/init'
+import { contract, getPrice, web3 } from '@/app/backend/init'
 import Link from 'next/link'
 import InsightButton from './insight-button'
 async function fetchPartner(id: number) {
@@ -17,6 +17,17 @@ const InsightCard = async ({ props }: { props: { aim: string, owner: string, loc
         let res = await fetchPartner(props.partners[i]);
         partners.push(res)
     }
+    // const priceFeed = await getPrice() / 10**8
+    // console.log(priceFeed)
+    // const ethToUSD = priceFeed * web3.utils.toNumber(props.balance)
+    // console.log(BigInt(ethToUSD * 10 ** 18)) 
+    async function ethToUSD() {
+        const priceFeed = await getPrice() * 10 ** 10
+        console.log(priceFeed)
+        const ethToUSD = BigInt(props.balance) * BigInt(priceFeed) / BigInt(10 ** 18)
+        console.log(ethToUSD / BigInt(10 ** 18))
+    }
+
     // return response;
     return (
         <div className=" bg-gray-300 rounded-xl overflow-hidden flex flex-col justify-end max-sm:w-full shadow-lg cursor-pointer mr-2 my-2 h-fit">

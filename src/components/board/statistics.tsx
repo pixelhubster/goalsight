@@ -28,8 +28,8 @@ const Statistics = (props: { balance: number, partner: number, id: number, onWai
                 </div>
             </div>
 
-            <div className='px-2 bg-gray-300/30 rounded-md py-3 mb-2 mx-2'>
-                <h3 className='text-[14px] font-mono text-gray-800'>Gratitude</h3>
+            <div className='px-2 bg-gray-00/30 rounded-md py-3 mb-2 mx-2'>
+                <h3 className='text-[14px] text-sm py-1 font-medium'>Gratitude</h3>
                 <h4 className='text-[14px]'>
                     The insight community views your donation as
                     a life saver this project helps resolve so many isssues and provide life,

@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import "@rainbow-me/rainbowkit/styles.css"
 import RainbowkitContext from "@/components/context/rainbowkit";
+import NotificatonContext from "@/components/context/notificationContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,9 +20,11 @@ export default function layout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <RainbowkitContext>
-              {children}
-        </RainbowkitContext>
+        <NotificatonContext>
+          <RainbowkitContext>
+            {children}
+          </RainbowkitContext>
+        </NotificatonContext>
       </body>
     </html>
   );

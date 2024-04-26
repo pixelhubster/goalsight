@@ -71,4 +71,27 @@ if (typeof window !== 'undefined') {
     initializeWeb3();
 }
 
-export { contract, walletContract, web3, daoContract, daoWalletContract };
+async function getPrice() {
+    const data = await fetch("https://data.chain.link/api/query?query=FEED_DATA_QUERY&variables=%7B%22schemaName%22%3A%22ethereum-mainnet%22%2C%22contractAddress%22%3A%220xe62b71cf983019bff55bc83b48601ce8419650cc%22%7D").then((res: Response) => {
+        return res.json().then((data: any) => {
+            const answer = data.data.chainData.nodes[0].inputs.answer
+            return answer
+        })
+    })
+    return data
+}
+getPrice()
+
+function ethToUSD(value: number) {
+    const priceFeed = 314659649694 * 10 ** 10
+    console.log(priceFeed)
+    const ethToUsd = BigInt(value) * BigInt(priceFeed) / BigInt(10 ** 18)
+    console.log(ethToUsd / BigInt(10 ** 18))
+}
+function usdToETH(value: number) {
+    const priceFeed = BigInt(314659649694) / BigInt(10 ** 8)
+    const usdToEth = BigInt(value) * BigInt(10 ** 18) / BigInt(priceFeed)
+    const ethValue = parseFloat(usdToEth.toString()) / Math.pow(10, 18);
+    return [usdToEth, ethValue.toFixed(4)]
+}
+export { contract, walletContract, web3, daoContract, daoWalletContract, getPrice, usdToETH, ethToUSD};
