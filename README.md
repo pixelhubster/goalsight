@@ -1,5 +1,3 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
 ## GoalSight
 
 The GoalSight Platform aims to leverage blockchain technology to facilitate transparent and decentralized approval processes for initiatives addressing Sustainable Development Goals (SDGs).
