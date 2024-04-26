@@ -1,6 +1,6 @@
 import React from 'react'
 import BookmarkCard from './bookmark-card'
-import { contract, getPrice, web3 } from '@/app/backend/init'
+import { contract, ethToUSD, getPrice, web3 } from '@/app/backend/init'
 import Link from 'next/link'
 import InsightButton from './insight-button'
 async function fetchPartner(id: number) {
@@ -17,17 +17,9 @@ const InsightCard = async ({ props }: { props: { aim: string, owner: string, loc
         let res = await fetchPartner(props.partners[i]);
         partners.push(res)
     }
-    // const priceFeed = await getPrice() / 10**8
-    // console.log(priceFeed)
-    // const ethToUSD = priceFeed * web3.utils.toNumber(props.balance)
-    // console.log(BigInt(ethToUSD * 10 ** 18)) 
-    async function ethToUSD() {
-        const priceFeed = await getPrice() * 10 ** 10
-        console.log(priceFeed)
-        const ethToUSD = BigInt(props.balance) * BigInt(priceFeed) / BigInt(10 ** 18)
-        console.log(ethToUSD / BigInt(10 ** 18))
-    }
-
+    const balance = ethToUSD(Number(props.balance))
+    const eth = parseFloat(props.balance.toString()) / Math.pow(10, 18)
+    const ethValue = eth.toFixed(4)
     // return response;
     return (
         <div className=" bg-gray-300 rounded-xl overflow-hidden flex flex-col justify-end max-sm:w-full shadow-lg cursor-pointer mr-2 my-2 h-fit">
@@ -58,7 +50,8 @@ const InsightCard = async ({ props }: { props: { aim: string, owner: string, loc
                         <div className="w-[min-content] self-end bg-gray-00 p-1 flex justify-end">
                             <BookmarkCard />
                         </div>
-                        <h3 className="text-lg ml-0 font-medium w-full">${web3.utils.toNumber(props.balance)}</h3>
+                        <h3 className="text-lg ml-0 font-medium w-full">${balance}</h3>
+                        <h3 className="text-[12px] ml-0 w-full">{ethValue} eth</h3>
                         <div className="flex flex-wrap bg-red-00 text-gray-800 w-full">
                         </div>
                         <div className="text-sm flex mr-5">&nbsp;</div>

@@ -1,22 +1,22 @@
 "use client"
-import { usdToETH, walletContract } from '@/app/backend/init'
+import { getPrice, usdToETH, walletContract } from '@/app/backend/init'
 import Modal from '@/components/modal'
 import { useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
 
 
-const Page = () => {
+const ContributeBoard = () => {
     const [amount, setAmount] = useState<number>(0);
-    const [purpose, setPurpose] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
-    const [convert, setConvert] = useState(0);
+    const [convert, setConvert] = useState<number>(0)
     const query = useSearchParams()
     const id = Number(query.get("id"))
     const [accounts, setAccounts] = useState<Array<string>>([]);
-    async function withdraw(wallet: any, id: number, acc: Array<any>, purpose: string, amount: number) {
+
+    async function contribute(wallet: any, id: number, acc: Array<any>, amount: number) {
         setLoading(true)
-        await wallet.methods.withdraw(id, purpose, amount).send({ from: acc[0] })
+        await wallet.methods.contribute(id).send({ from: acc[0], value: amount })
             .then((res: Response) => {
                 console.log(res)
             }).catch((err: Error) => {
@@ -42,23 +42,21 @@ const Page = () => {
                 <div className='w-full flex justify-between items-center bg-gray-00 p-2 pt-5 px-5 bg-red-00'>
                 </div>
                 <div className='w-full flex justify-between items-center bg-gray-00 p-2 px-5 py-3 flex-col'>
-                    <label htmlFor="usd" className='font-medium text-gray-800'>Amount in USD</label><br />
-                    <input name='tel' type="text" className='w-full h-[stretch] p-2 px-4 outline-none outline-solid outline-gray-300/90 outline-1 rounded-sm mb-5 text-black placeholder:text-gray-400'
+                    <label htmlFor="address" className='font-medium text-gray-800'>Amount in USD</label><br />
+                    <input name='address' type="tel" className='w-full h-[stretch] p-2 px-4 outline-none outline-solid outline-gray-300/90 outline-1 rounded-sm mb-5 text-black placeholder:text-gray-400'
                         placeholder="" onChange={(e) => onChange(Number(e.target.value))} />
-                    <p className='p-1 text-sm text-black'>{convert} eth</p>
-                    <label htmlFor="insight-aim" className='font-medium text-gray-800/80 w-full'>Purpose</label>
-                    <textarea name="purpose" id="1" cols={1} rows={2} className='w-full min-h-[20px] overflow-y-hidden resize-y p-2 my-2 outline-none outline-solid outline-gray-300/90 outline-1 rounded-sm mb-5 placeholder:text-gray-400 bg-red-00 text-black'
-                        placeholder='What is the purpose of this withdrawal' onChange={(e) => setPurpose(e.target.value)}></textarea>
+                    {/* <ContributeButton id={Number(id)}/> */}
+                    <p className='p-1 text-sm'>{convert} eth</p>
                     <button className='w-full bg-blue-400 p-2 rounded-md font-medium mb-1'
-                        onClick={() => withdraw(walletContract, id, accounts, purpose, amount)}
+                        onClick={() => contribute(walletContract, id, accounts, amount)}
                         disabled={loading}
                     >
                         {loading && <p>loading...</p>}
-                        withdraw</button>
+                        Contribute</button>
                 </div>
             </div>
         </Modal>
     )
 }
 
-export default Page
+export default ContributeBoard

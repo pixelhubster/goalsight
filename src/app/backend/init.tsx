@@ -78,6 +78,7 @@ async function getPrice() {
             return answer
         })
     })
+    console.log("usd:",data)
     return data
 }
 getPrice()
@@ -86,7 +87,10 @@ function ethToUSD(value: number) {
     const priceFeed = 314659649694 * 10 ** 10
     console.log(priceFeed)
     const ethToUsd = BigInt(value) * BigInt(priceFeed) / BigInt(10 ** 18)
+    const usdValue = parseFloat(ethToUsd.toString()) / Math.pow(10, 18)
     console.log(ethToUsd / BigInt(10 ** 18))
+    console.log("usdValue:", usdValue)
+    return usdValue.toFixed(2)
 }
 function usdToETH(value: number) {
     const priceFeed = BigInt(314659649694) / BigInt(10 ** 8)

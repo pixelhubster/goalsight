@@ -43,7 +43,7 @@ const InsightButton = (props: {approved: boolean, id: number}) => {
         <>
             <div onClick={() => refresh(props.id, accounts)}>refresh</div>
             {props.approved ? (
-                <ContributeCard id={props.id}/>
+                <ContributeCard id={props.id} path='/contribute'/>
             ) : (
                 <div className='flex'>
                     <button className='w-full shrink m-2 py-1 px-5 bg-green-400 shadow-md rounded-md flex justify-center items-center my-2 text-sm'
