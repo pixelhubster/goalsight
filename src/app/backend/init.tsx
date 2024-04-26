@@ -78,22 +78,22 @@ async function getPrice() {
             return answer
         })
     })
-    console.log("usd:",data)
     return data
 }
-getPrice()
+// if (typeof window === 'undefined') {
+//     rate = await getPrice()
+// }
 
-function ethToUSD(value: number) {
-    const priceFeed = 314659649694 * 10 ** 10
-    console.log(priceFeed)
+function ethToUSD(rate: number, value: number) {
+    // const priceFeed = 314659649694 * 10 ** 10
+    const priceFeed = rate * 10 ** 10
     const ethToUsd = BigInt(value) * BigInt(priceFeed) / BigInt(10 ** 18)
     const usdValue = parseFloat(ethToUsd.toString()) / Math.pow(10, 18)
-    console.log(ethToUsd / BigInt(10 ** 18))
-    console.log("usdValue:", usdValue)
     return usdValue.toFixed(2)
 }
-function usdToETH(value: number) {
-    const priceFeed = BigInt(314659649694) / BigInt(10 ** 8)
+function usdToETH(rate: number, value: number) {
+    // const priceFeed = BigInt(314659649694) / BigInt(10 ** 8)
+    const priceFeed = BigInt(rate) / BigInt(10 ** 8)
     const usdToEth = BigInt(value) * BigInt(10 ** 18) / BigInt(priceFeed)
     const ethValue = parseFloat(usdToEth.toString()) / Math.pow(10, 18);
     return [usdToEth, ethValue.toFixed(4)]

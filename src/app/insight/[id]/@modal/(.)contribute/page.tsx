@@ -1,9 +1,11 @@
+import { getPrice } from '@/app/backend/init'
 import ContributeBoard from '@/components/contribute'
 import React from 'react'
 
-const page = () => {
+const page = async () => {
+  const rate = await getPrice()
   return (
-    <ContributeBoard />
+    <ContributeBoard rate={rate}/>
   )
 }
 

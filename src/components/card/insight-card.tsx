@@ -3,6 +3,7 @@ import BookmarkCard from './bookmark-card'
 import { contract, ethToUSD, getPrice, web3 } from '@/app/backend/init'
 import Link from 'next/link'
 import InsightButton from './insight-button'
+import Image from 'next/image'
 async function fetchPartner(id: number) {
     const result = await contract.methods.getPartner(id).call();
     return result;
@@ -17,17 +18,20 @@ const InsightCard = async ({ props }: { props: { aim: string, owner: string, loc
         let res = await fetchPartner(props.partners[i]);
         partners.push(res)
     }
-    const balance = ethToUSD(Number(props.balance))
+    const rate = await getPrice()
+    const balance = ethToUSD(rate, Number(props.balance))
     const eth = parseFloat(props.balance.toString()) / Math.pow(10, 18)
     const ethValue = eth.toFixed(4)
     // return response;
     return (
         <div className=" bg-gray-300 rounded-xl overflow-hidden flex flex-col justify-end max-sm:w-full shadow-lg cursor-pointer mr-2 my-2 h-fit">
-            <div className="w-full h-[5rem]"></div>
-            <div className="w-full bg-gray-400 rounded-xl overflow-hidden">
+            <div className="w-full h-[5rem]">
+                <Image src={`/images/${props.id}.jpg`} alt={''} width={300} height={300} layout='responsive'/>
+            </div>
+            <div className="w-full bg-white rounded-xl overflow-hidden">
                 <div className="w-full flex">
 
-                    <div className="p-4 pb-0 bg-gray-400 px-4 w-full">
+                    <div className="p-4 pb-0 bg-gray-00 px-4 w-full">
                         <Link href={`/insight/${props.id}`}>
                             <h3 className="text-md line-clamp-3 overflow-hidden text-ellipsis font-medium">{props.aim}</h3>
                         </Link>
@@ -41,7 +45,7 @@ const InsightCard = async ({ props }: { props: { aim: string, owner: string, loc
                         {/* <h3 className="text-sm line-clamp-3 overflow-hidden text-ellipsis bg-red-400">{props.goal}</h3> */}
                         <div className="flex flex-auto flex-wrap">
                             {partners.map((partner: any, key: number) => (
-                                <div key={key} className="p-1 bg-green-100 rounded-md text-[12px] px-3 m-1 ml-0 overflow-hidden whitespace-nowrap text-ellipsis w-[5rem]">{partner.name}</div>
+                                <div key={key} className="p-1 bg-blue-300 rounded-md text-[12px] px-3 m-1 ml-0 overflow-hidden whitespace-nowrap text-ellipsis w-[5rem]">{partner.name}</div>
                             ))}
                         </div>
                     </div>

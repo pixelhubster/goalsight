@@ -4,7 +4,7 @@ import OverviewBoard from '@/components/board/overview-board'
 import Statistics from '@/components/board/statistics'
 import PartnerOverview from '@/components/card/partner-overview'
 import React from 'react'
-
+import Image from 'next/image'
 async function fetch(id: number) {
   const goal = await contract.methods.getGoal(id).call();
   return goal;
@@ -37,7 +37,9 @@ const Insight = async ({ id }: { id: number | undefined }) => {
   await run();
   return (
     <>
-      <div className='w-full h-[10rem] bg-green-300'></div>
+      <div className='w-full h-[10rem] bg-green-300'>
+        <Image src={`/images/${id}.jpg`} alt={''} width={0} height={0} style={{ width: '100%', height: '100%'}}/>
+      </div>
       <div className='w-full h-full bg-gray-50 p-2 flex xl:px-10 justify-center'>
         <div className='w-full md:w-[80%] lg:w-[65%] bg-white shadow-md overflow-hidden'>
           <OverviewBoard id={id as number} data={goal} />

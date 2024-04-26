@@ -1,11 +1,14 @@
 import React from 'react'
 import AcceptPartnerButton from './acceptPartner-card'
+import Image from 'next/image'
 
 const PartnerOverview = (props: { goal: string, name: string, location: { country: string, city: string }, pending: boolean, owner: string, account: string, id: number }) => {
     return (
-        <div className='w-full bg-blue-300 rounded-lg shadow-sm flex flex-col justify-end mb-2 overflow-hidden'>
-            <div className='w-full h-[3rem] bg-gray-200'></div>
-            <div className='w-full bg-white-300/30 rounded-md shadow-md p-2 px-3'>
+        <div className='w-full bg-white rounded-lg shadow-lg flex flex-col justify-end mb-2 overflow-hidden'>
+            <div className='w-full h-[3rem] bg-slate-200'>
+                {/* <Image src={`/images/${props.id}.jpg`} alt={''} width={300} height={300} layout='responsive'/> */}
+            </div>
+            <div className='w-full bg-white rounded-md shadow-md p-2 px-3'>
                 <div className="w-full h-[3rem] bg-red-00 p-0 flex items-start justify-center outline-none outline-solid outline-gray-00/90 outline-1 rounded-sm mb-2 cursor-pointer">
                     {/* <div className='w-[2.5rem] h-full bg-green-500 p-2 rounded-full flex justify-center items-center mr-1'>a</div> */}
                     <div className='w-full h-full bg-green-00'>
