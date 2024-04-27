@@ -41,8 +41,13 @@ const Statistics = async (props: { balance: number, partner: number, id: number,
                 </h4>
             </div>
             <div className='w-full h-fit flex'>
-                <ContributeCard id={props.id} path={`/insight/${props.id}/contribute`}/>
-                <WithdrawButton id={props.id} />
+                {!props.hasEnded && (
+                    <>
+                        <ContributeCard id={props.id} path={`/insight/${props.id}/contribute`} />
+                        <WithdrawButton id={props.id} />
+
+                    </>
+                )}
                 {props.hasEnded && (
                     <RewardButton id={props.id} />
                 )}

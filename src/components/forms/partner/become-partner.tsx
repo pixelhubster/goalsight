@@ -1,11 +1,18 @@
 "use client"
 import { useForm } from '@/components/hooks/useInput'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 const BecomePartner = () => {
     const form = useForm()
     const [value, handleOnChange] = form()
-    console.log(value)
+    const [account, setAccount] = useState([]);
+    useEffect(() => {
+        async function getAcc() {
+            const accounts = await window.ethereum.request({method: 'eth_accounts'})
+            setAccount(accounts)
+        }
+        getAcc()
+    },[])
     return (
         <div className='w-full bg-gray-00'>
             <h3 className='w-full flex justify-center items-center p-2 bg-red-00 font-medium text-[14px]'>Become a Partner</h3>
@@ -14,8 +21,8 @@ const BecomePartner = () => {
                 <input name='name' type="text" className='w-full h-[stretch] p-2 px-4 my-2 outline-none outline-solid outline-gray-300/90 outline-1 rounded-sm mb-5 placeholder:text-gray-400'
                     placeholder='CTF Donation centre' onChange={(e) =>handleOnChange(e.target.name, e.target.value)} value={value.name}/>
                 <label htmlFor="address" className='font-medium text-gray-800'>Owner Address</label>
-                <input name='address' type="text" className='w-full h-[stretch] p-2 px-4 my-2 outline-none outline-solid outline-gray-300/90 outline-1 rounded-sm mb-5 placeholder:text-gray-400'
-                    placeholder='the...' disabled onChange={(e) =>handleOnChange(e.target.name, e.target.value)} value={value.address}/>
+                <input name='address' type="text" className='w-full h-[stretch] p-2 px-4 my-2 outline-none outline-solid outline-gray-300/90 outline-1 rounded-sm mb-5 placeholder:text-gray-400 text-sm'
+                    placeholder='' disabled onChange={(e) =>handleOnChange(e.target.name, e.target.value)} value={account[0]}/>
 
                 <label htmlFor="email" className='font-medium text-gray-800'>Professinal Email</label>
                 <input name='email' type="email" className='w-full h-[stretch] p-2 px-4 my-2 outline-none outline-solid outline-gray-300/90 outline-1 rounded-sm mb-5 placeholder:text-gray-400'

@@ -14,7 +14,7 @@ const LinkCard = () => {
             <div className='h-[17rem] md:h-[22rem] w-full'>
                 <Image src={`/images/0.jpg`} alt={''} width={300} height={0} style={{ width: '100%', height: '100%'}}/>
             </div>
-            <div className="w-full h-[3rem] bg-white flex items-end px-2 md:px-10">
+            <div className="w-full h-[3rem] bg-[#FAF5FF]/30 flex items-end px-2 md:px-10">
                 <Link href={"/"}>
                     <div className={`w-fit bg-green-00 p-1 flex justify-center items-center cursor-pointer border-b-2 border-solid ${active === '/' ? "border-sky-400" : ""} mx-1`}>Insight</div>
                 </Link>

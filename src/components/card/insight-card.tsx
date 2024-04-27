@@ -9,7 +9,7 @@ async function fetchPartner(id: number) {
     return result;
 }
 
-const InsightCard = async ({ props }: { props: { aim: string, owner: string, location: any, balance: number, approved: boolean, createdAt: number, goal: string, email: string, id: number, partners: Array<any> } }) => {
+const InsightCard = async ({ props }: { props: { aim: string, owner: string, location: any, balance: number, approved: boolean, createdAt: number, goal: string, email: string, id: number, partners: Array<any>, hasEnded: boolean } }) => {
     const truncate = props.owner.slice(0, 4) + "..." + props.owner.slice(-3);
     const createdAt = web3.utils.toNumber(props.createdAt);
     const date = new Date(createdAt as number * 1000);
@@ -26,9 +26,9 @@ const InsightCard = async ({ props }: { props: { aim: string, owner: string, loc
     return (
         <div className=" bg-gray-300 rounded-xl overflow-hidden flex flex-col justify-end max-sm:w-full shadow-lg cursor-pointer mr-2 my-2 h-fit">
             <div className="w-full h-[5rem]">
-                <Image src={`/images/${props.id}.jpg`} alt={''} width={300} height={300} layout='responsive'/>
+                <Image src={`/images/${props.id}.jpg`} alt={''} width={300} height={300} layout='responsive' />
             </div>
-            <div className="w-full bg-white rounded-xl overflow-hidden">
+            <div className="w-full bg-white rounded-xl overflow-hidden pb-2">
                 <div className="w-full flex">
 
                     <div className="p-4 pb-0 bg-gray-00 px-4 w-full">
@@ -62,7 +62,9 @@ const InsightCard = async ({ props }: { props: { aim: string, owner: string, loc
                     </div>
                 </div>
                 <h3 className="mx-4 text-sm line-clamp-3 overflow-hidden text-ellipsis bg-red-00">{props.goal}</h3>
-                <InsightButton id={props.id} approved={props.approved} />
+                {!props.hasEnded && (
+                    <InsightButton id={props.id} approved={props.approved} />
+                )}
             </div>
         </div>
     )

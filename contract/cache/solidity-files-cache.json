@@ -74,8 +74,8 @@
       ]
     },
     "/home/kaleel/Documents/projects/webdev/goalsight/contract/contracts/GoalSight.sol": {
-      "lastModificationDate": 1713823001855,
-      "contentHash": "c85de72765c0fd5d139c06f009826233",
+      "lastModificationDate": 1714146505915,
+      "contentHash": "7ae8713c3e5b92f6404ce79e54b4a315",
       "sourceName": "contracts/GoalSight.sol",
       "solcConfig": {
         "version": "0.8.24",

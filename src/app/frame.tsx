@@ -18,7 +18,7 @@ const Frame = ({ children }: { children: React.ReactNode }) => {
             <button className="bg-sky-800 text-sm p-3 px-4 rounded-3xl shadow-md fixed bottom-5 right-5 text-white flex items-center justify-center" onClick={() => router.push("/become-partner")}>
                 <MdFeed className='mx-2 text-lg' />
                 Become a Partner</button>
-            <div className="w-full bg-white p-10 pt-5 max-md:p-5">
+            <div className="w-full bg-[#FAF5FF] p-10 pt-5 max-md:p-5">
                 {children}
             </div>
         </main>

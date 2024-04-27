@@ -40,7 +40,7 @@ const Insight = async ({ id }: { id: number | undefined }) => {
       <div className='w-full h-[10rem] bg-green-300'>
         <Image src={`/images/${id}.jpg`} alt={''} width={0} height={0} style={{ width: '100%', height: '100%'}}/>
       </div>
-      <div className='w-full h-full bg-gray-50 p-2 flex xl:px-10 justify-center'>
+      <div className='w-full h-full bg-[#FAF5FF] p-2 flex xl:px-10 justify-center rounded-md'>
         <div className='w-full md:w-[80%] lg:w-[65%] bg-white shadow-md overflow-hidden'>
           <OverviewBoard id={id as number} data={goal} />
           <Statistics balance={goal.balance} partner={goal.partners.length} onWait={goal.onWait.length} id={id as number} hasEnded={goal.hasEnded} />
@@ -67,6 +67,8 @@ const Insight = async ({ id }: { id: number | undefined }) => {
               </>
             )}
           </div>
+          <Ledger id={id as number}/>
+
         </div>
       </div>
     </>

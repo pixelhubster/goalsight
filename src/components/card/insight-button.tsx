@@ -14,13 +14,21 @@ async function fetch(id: number) {
 //     return result;
 // }
 async function approve(wallet: any, id: number, acc: Array<any>) {
-    await wallet.methods.approveGoal(id).send({ from: acc[0] })
-        .then((res: Response) => console.log(res))
+    await wallet.methods.approveGoal(id).call()
+        .then(async (res: Response) => {
+            await wallet.methods.approveGoal(id).send({ from: acc[0] })
+                .then((res: Response) => console.log(res))
+                .catch((err: Error) => console.log(err))
+        })
         .catch((err: Error) => console.log(err))
 }
 async function reject(wallet: any, id: number, acc: Array<any>) {
-    await wallet.methods.rejectGoal(id).send({ from: acc[0] })
-        .then((res: Response) => console.log(res))
+    await wallet.methods.rejectGoal(id).call()
+        .then(async (res: Response) => {
+            await wallet.methods.rejectGoal(id).send({ from: acc[0] })
+                .then((res: Response) => console.log(res))
+                .catch((err: Error) => console.log(err))
+        })
         .catch((err: Error) => console.log(err))
 }
 async function refresh(id: number, acc: Array<any>) {
@@ -46,7 +54,7 @@ const InsightButton = (props: { approved: boolean, id: number }) => {
                 <ContributeCard id={props.id} path='/contribute' />
             ) : (
                 <>
-                    <div onClick={() => refresh(props.id, accounts)} className='w-full flex justify-end px-5'>
+                    <div onClick={() => refresh(props.id, accounts)} className='w-full flex justify-end px-5 cursor-pointer'>
                         <MdRefresh />
                     </div>
                     <div className='flex'>
