@@ -1,5 +1,7 @@
 import { contract } from "../../backend/init"
 import ApprovalCard from "@/components/card/approval-card";
+export const dynamic = 'force-dynamic'
+export const revalidate = 0;
 
 async function fetch() {
   const result = await contract.methods.getPartners().call();

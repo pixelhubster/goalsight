@@ -1,5 +1,7 @@
 import Insight from '@/components/insight'
-import React, { useState } from 'react'
+import React from 'react'
+export const dynamic = 'force-dynamic'
+export const revalidate = 0;
 
 const page = ({params}: {params: {id: number[],}}) => {
     const id = params.id[0];

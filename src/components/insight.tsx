@@ -5,6 +5,10 @@ import Statistics from '@/components/board/statistics'
 import PartnerOverview from '@/components/card/partner-overview'
 import React from 'react'
 import Image from 'next/image'
+
+export const dynamic = 'force-dynamic'
+export const revalidate = 0;
+
 async function fetch(id: number) {
   const goal = await contract.methods.getGoal(id).call();
   return goal;
@@ -67,7 +71,7 @@ const Insight = async ({ id }: { id: number | undefined }) => {
               </>
             )}
           </div>
-          <Ledger id={id as number}/>
+          {/* <Ledger id={id as number}/> */}
 
         </div>
       </div>
