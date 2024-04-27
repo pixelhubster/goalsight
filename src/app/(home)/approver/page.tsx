@@ -7,11 +7,11 @@ const page = () => {
     
             <div className='m-1'>Goals</div>
             <div className='customgridApprovalCard w-full'>
-                <ApprovalCard btn='Approve' />
+                {/* <ApprovalCard btn='Approve' /> */}
             </div>
             <div className='m-1'>Partners</div>
             <div className='customgridApprovalCard w-full'>
-                <ApprovalCard btn='Approve' />
+                {/* <ApprovalCard btn='Approve' /> */}
             </div>
         </>
     )

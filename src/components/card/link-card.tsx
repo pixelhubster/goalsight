@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-
+import Image from 'next/image'
 const LinkCard = () => {
     const path = usePathname()
     const [active, setActive] = useState<string>(path)
@@ -10,19 +10,16 @@ const LinkCard = () => {
         setActive(path)
     }, [path])
     return (
-        <div className="w-full h-[20rem] bg-emerald-300 flex items-end">
-            <div className="w-full h-[3rem] bg-red-200 flex items-end px-2 md:px-10">
+        <div className="w-full h-[20rem] md:h-[25rem] flex flex-col items-end">
+            <div className='h-[17rem] md:h-[22rem] w-full'>
+                <Image src={`/images/0.jpg`} alt={''} width={300} height={0} style={{ width: '100%', height: '100%'}}/>
+            </div>
+            <div className="w-full h-[3rem] bg-[#FAF5FF]/30 flex items-end px-2 md:px-10">
                 <Link href={"/"}>
-                    <div className={`w-fit bg-green-00 p-1 flex justify-center items-center cursor-pointer border-b-2 border-solid ${active ===  '/' ? "border-black" : ""} mx-1`}>Insight</div>
+                    <div className={`w-fit bg-green-00 p-1 flex justify-center items-center cursor-pointer border-b-2 border-solid ${active === '/' ? "border-sky-400" : ""} mx-1`}>Insight</div>
                 </Link>
-                <Link href={"/saved"}>
-                    <div className={`w-fit bg-green-00 p-1 flex justify-center items-center cursor-pointer border-b-2 border-solid ${active ===  '/saved' ? "border-black" : ""} mx-1`}>Saved</div>
-                </Link>
-                <Link href={"/partner"}>
-                    <div className={`w-fit bg-green-00 p-1 flex justify-center items-center cursor-pointer border-b-2 border-solid ${active ===  '/partner' ? "border-black" : ""} mx-1`}>Partner</div>
-                </Link>
-                <Link href={"/approver"}>
-                    <div className={`w-fit bg-green-00 p-1 flex justify-center items-center cursor-pointer border-b-2 border-solid ${active ===  '/approver' ? "border-black" : ""} mx-1`}>Approver</div>
+                <Link href={"/partners"}>
+                    <div className={`w-fit bg-green-00 p-1 flex justify-center items-center cursor-pointer border-b-2 border-solid ${active === '/partners' ? "border-sky-400" : ""} mx-1`}>partners</div>
                 </Link>
             </div>
         </div>

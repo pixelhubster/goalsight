@@ -18,12 +18,13 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
+  /* background: linear-gradient(
       to bottom,
       transparent,
       rgb(var(--background-end-rgb))
     )
-    rgb(var(--background-start-rgb));
+    rgb(var(--background-start-rgb)); */
+    background-color: whitesmoke;
 }
 
 @layer utilities {
@@ -41,6 +42,6 @@ body {
 .customgridApprovalCard {
   display: grid;
   width: 100%;
-  grid-template-columns: repeat(auto-fill, minmax(25rem,1fr));
+  grid-template-columns: repeat(auto-fill, minmax(30rem,1fr));
   gap: 10;
 }

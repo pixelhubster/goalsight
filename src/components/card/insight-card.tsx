@@ -1,51 +1,71 @@
 import React from 'react'
-import { MdBookmarkBorder } from 'react-icons/md'
 import BookmarkCard from './bookmark-card'
+import { contract, ethToUSD, getPrice, web3 } from '@/app/backend/init'
+import Link from 'next/link'
+import InsightButton from './insight-button'
+import Image from 'next/image'
+async function fetchPartner(id: number) {
+    const result = await contract.methods.getPartner(id).call();
+    return result;
+}
 
-const InsightCard = () => {
+const InsightCard = async ({ props }: { props: { aim: string, owner: string, location: any, balance: number, approved: boolean, createdAt: number, goal: string, email: string, id: number, partners: Array<any>, hasEnded: boolean } }) => {
+    const truncate = props.owner.slice(0, 4) + "..." + props.owner.slice(-3);
+    const createdAt = web3.utils.toNumber(props.createdAt);
+    const date = new Date(createdAt as number * 1000);
+    const partners: any = [];
+    for (let i = 0; i < props.partners.length; i++) {
+        let res = await fetchPartner(props.partners[i]);
+        partners.push(res)
+    }
+    const rate = await getPrice()
+    const balance = ethToUSD(rate, Number(props.balance))
+    const eth = parseFloat(props.balance.toString()) / Math.pow(10, 18)
+    const ethValue = eth.toFixed(4)
+    // return response;
     return (
-        <div className=" bg-gray-300 rounded-xl overflow-hidden flex flex-col justify-end max-sm:w-full shadow-lg cursor-pointer mr-2 my-2">
-            <div className="w-full h-[5rem]"></div>
-            <div className="w-full bg-gray-400 rounded-xl overflow-hidden">
-                <div className="w-full flex ">
+        <div className=" bg-gray-300 rounded-xl overflow-hidden flex flex-col justify-end max-sm:w-full shadow-lg cursor-pointer mr-2 my-2 h-fit">
+            <div className="w-full h-[5rem]">
+                <Image src={`/images/${props.id}.jpg`} alt={''} width={300} height={300} layout='responsive' />
+            </div>
+            <div className="w-full bg-white rounded-xl overflow-hidden pb-2">
+                <div className="w-full flex">
 
-                    <div className="p-4 bg-gray-400 px-4 w-full">
-                        <h3 className="text-md line-clamp-3 overflow-hidden text-ellipsis font-medium">Reconstructing aaaaaaaaaaaa Accra Bridge in Ghana Accra Greater Accra</h3>
-                        <div className="text-[12px] flex m-1 ml-0 text-gray-800"><p>@hengry</p> <p className="px-2 text-[12px]">24/23/23</p> <p>GNEC</p></div>
-                        <div className="text-[12px] flex m-1 ml-0 text-gray-800"><p>Accra, Ghana</p> <p className="px-2 text-[12px]">24 views</p> </div>
+                    <div className="p-4 pb-0 bg-gray-00 px-4 w-full">
+                        <Link href={`/insight/${props.id}`}>
+                            <h3 className="text-md line-clamp-3 overflow-hidden text-ellipsis font-medium">{props.aim}</h3>
+                        </Link>
+                        <div className="text-[12px] flex m-1 ml-0 text-gray-800"><p>{truncate}</p>
+                            <p className="px-2 text-[12px]">{date.getDate()}/{date.getMonth()}/{date.getFullYear()}</p>
+                        </div>
+                        <div className="text-[12px] m-1 ml-0 text-gray-800">
+                            <p>{props.email}</p>
+                            <p>{props.location.city},{props.location.country} </p>
+                        </div>
+                        {/* <h3 className="text-sm line-clamp-3 overflow-hidden text-ellipsis bg-red-400">{props.goal}</h3> */}
                         <div className="flex flex-auto flex-wrap">
-                            <div className="p-1 bg-green-100 rounded-md text-[12px] px-3 m-1 ml-0 overflow-hidden whitespace-nowrap text-ellipsis w-[4rem]">gnec hospital</div>
-                            <div className="p-1 bg-green-100 rounded-md text-[12px] px-3 m-1 ml-0 overflow-hidden whitespace-nowrap text-ellipsis w-[4rem]">gnec hospital</div>
-                            <div className="p-1 bg-green-100 rounded-md text-[12px] px-3 m-1 ml-0 overflow-hidden whitespace-nowrap text-ellipsis w-[4rem]">gnec hospital</div>
+                            {partners.map((partner: any, key: number) => (
+                                <div key={key} className="p-1 bg-blue-300 rounded-md text-[12px] px-3 m-1 ml-0 overflow-hidden whitespace-nowrap text-ellipsis w-[5rem]">{partner.name}</div>
+                            ))}
                         </div>
                     </div>
 
-                    <div className="p-2 bg-gray-400 px-4 flex flex-col items-start pr-5 overflow-hidden">
+                    <div className="w-fit p-2 flex flex-col items-start justify-center mr-4 h-fit">
                         <div className="w-[min-content] self-end bg-gray-00 p-1 flex justify-end">
                             <BookmarkCard />
                         </div>
-                        <h3 className="text-lg ml-0 font-medium w-full">$45004</h3>
+                        <h3 className="text-lg ml-0 font-medium w-full">${balance}</h3>
+                        <h3 className="text-[12px] ml-0 w-full">{ethValue} eth</h3>
                         <div className="flex flex-wrap bg-red-00 text-gray-800 w-full">
-                            <h3 className="text-[12px] mr-1 ">404 contributors</h3>
-                            <h3 className="text-[12px] mr-1">404 evidence </h3>
                         </div>
                         <div className="text-sm flex mr-5">&nbsp;</div>
-                        {/* <div className="text-sm flex bg-white mr-5"><p>@hengry</p> <p className="px-2">24/23/23</p> <p>GNEC</p></div> */}
-                        {/* <h3 className="text-sm">123 evidence</h3> */}
-                        {/* <button className='w-full px-5 bg-blue-400 shadow-md rounded-md flex justify-center items-center my-2'>Contribute</button> */}
                     </div>
                 </div>
-                <button className='w-[stretch] shrink m-2 py-1 px-5 bg-blue-400 shadow-md rounded-md flex justify-center items-center my-2'>Contribute</button>
+                <h3 className="mx-4 text-sm line-clamp-3 overflow-hidden text-ellipsis bg-red-00">{props.goal}</h3>
+                {!props.hasEnded && (
+                    <InsightButton id={props.id} approved={props.approved} />
+                )}
             </div>
-            {/* <div className="flex flex-auto flex-wrap">
-                <div className="p-1 bg-green-100 w-fit rounded-md text-[12px] px-3 m-1 ml-0">gnec hospital</div>
-                <div className="p-1 bg-green-100 w-fit rounded-md text-[12px] px-3 m-1 ml-0">gnec hospital</div>
-                <div className="p-1 bg-green-100 w-fit rounded-md text-[12px] px-3 m-1 ml-0">gnec hospital</div>
-                <div className="p-1 bg-green-100 w-fit rounded-md text-[12px] px-3 m-1 ml-0">gnec hospital</div>
-            </div> */}
-            {/* <div className="w-full p-2 px-4 bg-gray-300/40">The new description of this projecgt a bunch of crazy and long stuffs just to take 
-          snad waste space soa aoa the tjej s sdjod sdjtej sfjej  tjeo te e eoooooooooos adjdjdjajdodfdo </div> */}
-
         </div>
     )
 }

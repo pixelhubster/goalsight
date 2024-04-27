@@ -12,14 +12,13 @@ const Frame = ({ children }: { children: React.ReactNode }) => {
         <main className="flex min-h-screen flex-col items-center">
             <Navbar />
             <LinkCard />
-            <button className="bg-slate-800 p-3 px-5 rounded-3xl shadow-md fixed bottom-[5rem] right-5 text-white flex items-center justify-center" onClick={() => router.push("/createinsight")}>
-                {/* <MdFeed className='mx-2 text-md' /> */}
+            <button className="bg-sky-800 text-sm p-3 px-4 rounded-3xl shadow-md fixed bottom-[4.5rem] right-5 text-white flex items-center justify-center" onClick={() => router.push("/createinsight")}>
                 <IoIosCreate className='mx-2 text-lg text-blue-00'/>
                 Create Goal</button>
-            <button className="bg-slate-800 p-3 px-5 rounded-3xl shadow-md fixed bottom-5 right-5 text-white flex items-center justify-center" onClick={() => router.push("/become-partner")}>
+            <button className="bg-sky-800 text-sm p-3 px-4 rounded-3xl shadow-md fixed bottom-5 right-5 text-white flex items-center justify-center" onClick={() => router.push("/become-partner")}>
                 <MdFeed className='mx-2 text-lg' />
                 Become a Partner</button>
-            <div className="w-full bg-white p-10 pt-5 max-md:p-5">
+            <div className="w-full bg-[#FAF5FF] p-10 pt-5 max-md:p-5">
                 {children}
             </div>
         </main>
