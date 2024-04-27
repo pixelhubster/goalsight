@@ -14,7 +14,7 @@ module.exports = {
   networks: {
     sepolia: {
       url: "https://rpc.sepolia.org",
-      accounts: ["a858bc79c6b44a96aedef16ad654733d0b463326cc8784decbc74d379cc0ce29"],
+      accounts: ["YourPrivateKey"],
     }
   }
 
