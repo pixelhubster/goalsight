@@ -29,7 +29,6 @@ const Navbar = () => {
         )}
       </div>
     </div>
-    /*  */
   )
 }
 
