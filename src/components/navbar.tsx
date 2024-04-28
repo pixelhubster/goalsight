@@ -2,7 +2,8 @@
 import React, { useState, useEffect } from 'react'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { walletContract, web3 } from '../app/backend/init';
-
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
 async function fetch(smartcontract: any) {
   const accounts = await window.ethereum.request({ method: 'eth_accounts'});
   const reputation = await smartcontract.methods.getReputation().call({ from: accounts[0]});
@@ -19,14 +20,15 @@ const Navbar = () => {
     ft();
   }, [])
   return (
-    <div className="w-full h-[5rem] bg-white/40 backdrop-blur-md px-10 max-md:px-5 flex justify-between items-center fixed z-1 shadow-sm">
+    <div className="w-full h-[5rem] max-sm:h-[4rem] max-sm:text-sm bg-white/40 backdrop-blur-md px-10 max-md:px-5 flex justify-between items-center fixed z-1 shadow-sm">
       <div className='font-semibold text-md'>GoalSight</div>
       <div className="bg-red-00 w-fit px-2 flex">
         <ConnectButton />
-        <div className='h-full p-2 mx-2 rounded-md bg-white flex shadow-md'>{reputation}&nbsp;<b>R</b></div>
+        {reputation && (
+          <div className='h-full p-2 mx-2 rounded-md bg-white flex shadow-md font-medium'>{reputation}&nbsp;<b>R</b></div>
+        )}
       </div>
     </div>
-    /*  */
   )
 }
 

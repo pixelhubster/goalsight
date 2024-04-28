@@ -1,6 +1,8 @@
 import InsightCard from "@/components/card/insight-card";
 import { contract } from "../backend/init"
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 async function fetchD() {
   const goals = await contract.methods.getGoals().call();
   // const daoadd = await contract.methods.daoLibrary().call();
@@ -17,7 +19,8 @@ export default async function Home() {
   await ft();
   return (
     <>
-      <div className='customgrid w-full min-h-screen'>
+      <div className='w-full min-h-screen'>
+      <div className='customgrid w-full min-h-fit'>
         {goals ? (
           (goals as Array<any>).map((goal, key) => (
             <InsightCard key={key} props={{ ...goal, id: key }} />
@@ -25,6 +28,7 @@ export default async function Home() {
         ) : (
           <div>No contributions...</div>
         )}
+      </div>
       </div>
     </>
   );

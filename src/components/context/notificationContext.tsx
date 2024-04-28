@@ -1,11 +1,10 @@
 "use client"
 import React, { useContext, useState } from 'react'
 import NotificationCard from '../card/notification-card'
-import Modal from '../modal'
 const NotificationProvider = React.createContext({})
 
 export const useNotification = () => {
-    return useContext(NotificationProvider)
+    return useContext(NotificationProvider) as any
 }
 const NotificatonContext = ({ children }: { children: React.ReactNode }) => {
     const [notification, setNotification] = useState({
@@ -14,12 +13,9 @@ const NotificatonContext = ({ children }: { children: React.ReactNode }) => {
         active: false,
     })
     return (
-        <NotificationProvider.Provider value={[notification, setNotification]}>
+        <NotificationProvider.Provider value={setNotification}>
             {notification.active && (
-                <Modal>
-                    <NotificationCard />
-                </Modal>
-
+                <NotificationCard message={notification.message} ok={notification.ok} />
             )}
             {children}
         </NotificationProvider.Provider>

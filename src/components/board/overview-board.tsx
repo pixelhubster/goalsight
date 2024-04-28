@@ -1,6 +1,8 @@
 import { web3 } from '@/app/backend/init';
 import React from 'react'
 import Image from 'next/image';
+export const dynamic = 'force-dynamic'
+export const revalidate = 0;
 
 const OverviewBoard = (props: { id: number, data: any }) => {
   let date: any = props.data ? web3.utils.toNumber(props.data?.createdAt) : 0;

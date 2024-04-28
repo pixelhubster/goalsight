@@ -26,7 +26,7 @@ const InsightCard = async ({ props }: { props: { aim: string, owner: string, loc
     return (
         <div className=" bg-gray-300 rounded-xl overflow-hidden flex flex-col justify-end max-sm:w-full shadow-lg cursor-pointer mr-2 my-2 h-fit">
             <div className="w-full h-[5rem]">
-                <Image src={`/images/${props.id}.jpg`} alt={''} width={300} height={300} layout='responsive' />
+                <Image src={`/images/${props.id}.jpg`} alt={''} width={300} height={300} layout='responsive' priority={true} />
             </div>
             <div className="w-full bg-white rounded-xl overflow-hidden pb-2">
                 <div className="w-full flex">

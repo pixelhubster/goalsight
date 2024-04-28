@@ -34,17 +34,15 @@ if (typeof window !== 'undefined') {
 }
 
 async function getPrice() {
-    const data = await fetch("https://data.chain.link/api/query?query=FEED_DATA_QUERY&variables=%7B%22schemaName%22%3A%22ethereum-mainnet%22%2C%22contractAddress%22%3A%220xe62b71cf983019bff55bc83b48601ce8419650cc%22%7D").then((res: Response) => {
-        return res.json().then((data: any) => {
-            const answer = data.data.chainData.nodes[0].inputs.answer
-            return answer
-        })
+    const data = await fetch("https://data.chain.link/api/query?query=FEED_DATA_QUERY&variables=%7B%22schemaName%22%3A%22ethereum-mainnet%22%2C%22contractAddress%22%3A%220xe62b71cf983019bff55bc83b48601ce8419650cc%22%7D", {
+        cache: 'no-store',
+    }).then(async (res: Response) => {
+        const data = await res.json();
+        const answer = data.data.chainData.nodes[0].inputs.answer;
+        return answer;
     })
     return data
 }
-// if (typeof window === 'undefined') {
-//     rate = await getPrice()
-// }
 
 function ethToUSD(rate: number, value: number) {
     // const priceFeed = 314659649694 * 10 ** 10

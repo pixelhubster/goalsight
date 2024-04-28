@@ -5,6 +5,9 @@ import EndGoalButton from '../card/endGoal-card';
 import RewardButton from '../card/reward-card';
 import WithdrawButton from '../card/withdraw-card';
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0;
+
 const Statistics = async (props: { balance: number, partner: number, id: number, onWait: number, hasEnded: boolean }) => {
     const rate = await getPrice()
     const balance = ethToUSD(rate, Number(props.balance))

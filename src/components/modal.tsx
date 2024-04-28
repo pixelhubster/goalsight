@@ -10,7 +10,7 @@ const Modal = ({ children }: { children?: React.ReactNode }) => {
     window.scrollTo(0,y_value)
   })
   return (
-    <main className='w-screen h-screen bg-black/10 top-0 fixed flex items-center justify-center z-10'
+    <main className='w-screen h-screen bg-black/10 top-0 fixed flex items-center justify-center z-[1]'
       onClick={(e) => {
         if (e.target === e.currentTarget) closeModal();
       }}>

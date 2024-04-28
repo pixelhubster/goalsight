@@ -2,6 +2,7 @@
 import { daoContract, daoWalletContract, walletContract, web3 } from '@/app/backend/init'
 import React, { useEffect, useState } from 'react'
 import { MdRefresh } from 'react-icons/md'
+import { useNotification } from '../context/notificationContext'
 
 async function refresh(id: number, acc: Array<any>) {
     await walletContract.methods.endPartnerVote(id).send({ from: acc[0] })
@@ -18,28 +19,69 @@ const PartnerButton = (props: { approved: boolean, id: number }) => {
     const [partners, setPartners] = useState<any>(null);
     const [accounts, setAccounts] = useState<any>(null);
     const [loading, setLoading] = useState<boolean>(false);
+    const setNotification = useNotification()
     async function approve(wallet: any, id: number, acc: Array<any>) {
         setLoading(true);
-        // await wallet.methods.approvePartner(id).call().then(async (res: Response) => {
-        //     console.log(res)
-        //     await wallet.methods.approvePartner(id).send({ from: acc[0] })
-        //         .then((res: Response) => console.log(res))
-        //         .catch((err: Error) => console.log(err))
-        // }).catch((err: Error) => {
-        //     console.log(err.message)
-        // })
+        await wallet.methods.approvePartner(id).call().then(async (res: Response) => {
+            await wallet.methods.approvePartner(id).send({ from: acc[0] })
+                .then((res: Response) => {
+                    setNotification({
+                        active: true,
+                        ok: true,
+                        message: `You have casted a vote to approve`
+                    })
+                })
+                .catch((err: Error) => {
+                    setNotification({
+                        active: true,
+                        ok: false,
+                        message: err.message
+                    })
+                })
+        }).catch((err: Error) => {
+            setNotification({
+                active: true,
+                ok: false,
+                message: err.message
+            })
+        })
 
-        await wallet.methods.approvePartner(id).send({ from: acc[0] })
-            .then((res: Response) => console.log(res))
-            .catch((err: Error) => console.log(err))
-        setLoading(false);
+        // await wallet.methods.approvePartner(id).send({ from: acc[0] })
+        //     .then((res: Response) => console.log(res))
+        //     .catch((err: Error) => console.log(err))
+        // setLoading(false);
     }
     async function reject(wallet: any, id: number, acc: Array<any>) {
         setLoading(true)
-        await wallet.methods.rejectPartner(id).send({ from: acc[0] })
-            .then((res: Response) => console.log(res))
-            .catch((err: Error) => console.log(err))
+        await wallet.methods.rejectPartner(id).call().then(async (res: Response) => {
+            await wallet.methods.rejectPartner(id).send({ from: acc[0] })
+            .then((res: Response) => {
+                setNotification({
+                    active: true,
+                    ok: true,
+                    message: `You have casted a vote to reject`
+                })
+            })
+            .catch((err: Error) => {
+                setNotification({
+                    active: true,
+                    ok: false,
+                    message: err.message
+                })
+            })
+        }).catch((err: Error) => {
+            console.log(err.message)
+            setNotification({
+                active: true,
+                ok: false,
+                message: err.message
+            })
+        })
         setLoading(false)
+        // await wallet.methods.rejectPartner(id).send({ from: acc[0] })
+        //     .then((res: Response) => console.log(res))
+        //     .catch((err: Error) => console.log(err))
+        // setLoading(false)
     }
     useEffect(() => {
         async function fetchData() {
