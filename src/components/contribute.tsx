@@ -1,15 +1,18 @@
 "use client"
 import { getPrice, usdToETH, walletContract } from '@/app/backend/init'
 import Modal from '@/components/modal'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
+import { useNotification } from './context/notificationContext'
 
 
 
 const ContributeBoard = ({ rate }: { rate: number }) => {
+    const setNotification = useNotification();
     const [amount, setAmount] = useState<number>(0);
     const [loading, setLoading] = useState<boolean>(false);
     const [convert, setConvert] = useState<number>(0)
+    const router = useRouter()
     const query = useSearchParams()
     const id = Number(query.get("id"))
     const [accounts, setAccounts] = useState<Array<string>>([]);
@@ -19,10 +22,22 @@ const ContributeBoard = ({ rate }: { rate: number }) => {
         await wallet.methods.contribute(id).send({ from: acc[0], value: amount })
             .then((res: Response) => {
                 console.log(res)
+                setNotification({
+                    ok: true,
+                    message: `You have contributed ${amount}`,
+                    active: true,
+                })
+                router.back()
             }).catch((err: Error) => {
                 console.log(err)
+                setNotification({
+                    ok: false,
+                    message: err.message,
+                    active: true,
+                })
             })
         setLoading(false)
+
     }
     useEffect(() => {
         async function getAccount() {

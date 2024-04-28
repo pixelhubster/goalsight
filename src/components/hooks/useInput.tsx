@@ -1,6 +1,5 @@
 "use client"
 import React, { useContext, useState } from 'react'
-import { useNotification } from '../context/notificationContext'
 
 const FormProvider = React.createContext({})
 const FormFunction = React.createContext({})
@@ -10,7 +9,7 @@ export function useForm() {
 export function useFunction() {
     return useContext(FormFunction) as any;
 }
-async function goal(smartcontract: any, arg: any, method: any) {
+async function goal(smartcontract: any, arg: any, method: any, setNotification: any) {
     const accounts = await window.ethereum.request({method: 'eth_accounts'})
     // const result = await smartcontract.methods.createGoal(
     //         arg.aim,
@@ -44,10 +43,22 @@ async function goal(smartcontract: any, arg: any, method: any) {
             arg.description,
             arg.goal,
             arg.partners
-    ).send({ from: accounts[0] })
+    ).send({ from: accounts[0] }).then((res: Response) => {
+        setNotification({
+            ok: true,
+            active: true,
+            message: `You have successfully created a goal`
+        })
+    }).catch((err: Error) => {
+        setNotification({
+            ok: false,
+            active: true,
+            message: err.message
+        })
+    })
     return result;
 }
-async function partner(smartcontract: any, arg: any) {
+async function partner(smartcontract: any, arg: any, setNotification: any) {
     const accounts = await window.ethereum.request({method: 'eth_accounts'})
     const result = await smartcontract.methods.becomePartner(
             arg.name,
@@ -62,7 +73,19 @@ async function partner(smartcontract: any, arg: any) {
             },
             arg.description,
             arg.goal
-    ).send({ from: accounts[0] })
+    ).send({ from: accounts[0] }).then((res: Response) => {
+        setNotification({
+            ok: true,
+            active: true,
+            message: `You have successfully created a partner`
+        })
+    }).catch((err: Error) => {
+        setNotification({
+            ok: false,
+            active: true,
+            message: err.message
+        })
+    })
     return result;
 }
 

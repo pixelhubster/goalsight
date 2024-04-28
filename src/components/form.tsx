@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { MdClose } from 'react-icons/md'
 import { useForm, useFunction } from './hooks/useInput'
 import { walletContract } from '@/app/backend/init'
+import { useNotification } from './context/notificationContext'
 
 const Form = ({ children, btn, method, fn }: { children: React.ReactNode[], btn?: string, method?: any, fn: boolean }) => {
     const form = useForm()
@@ -12,14 +13,14 @@ const Form = ({ children, btn, method, fn }: { children: React.ReactNode[], btn?
     const [goal, partner] = useFunction();
     const [index, setIndex] = useState<number>(0)
     const [loading, setLoading] = useState<boolean>(false)
-
+    const setNotification = useNotification()
     const submitForm = async () => {
         setLoading(true)
         if (index >= 0 && index < (children.length - 1)) {
             setIndex(index + 1)
         } else {
             setIndex(children.length - 1)
-            const response = fn ? await goal(walletContract, value) : await partner(walletContract, value);
+            const response = fn ? await goal(walletContract, value, setNotification).then(() => router.back()) : await partner(walletContract, value, setNotification).then(() => router.back());
             console.log(response)
         }
         setLoading(false)

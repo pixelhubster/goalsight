@@ -1,8 +1,9 @@
 "use client"
 import { getPrice, usdToETH, walletContract } from '@/app/backend/init'
 import Modal from '@/components/modal'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
+import { useNotification } from './context/notificationContext'
 
 
 
@@ -11,16 +12,29 @@ const WithdrawBoard = ({rate}: {rate: number}) => {
     const [purpose, setPurpose] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
     const [convert, setConvert] = useState(0);
+    const setNotification = useNotification()
     const query = useSearchParams()
     const id = Number(query.get("id"))
+    const router = useRouter()
     const [accounts, setAccounts] = useState<Array<string>>([]);
     async function withdraw(wallet: any, id: number, acc: Array<any>, purpose: string, amount: number) {
         setLoading(true)
         await wallet.methods.withdraw(id, purpose, amount).send({ from: acc[0] })
             .then((res: Response) => {
                 console.log(res)
+                setNotification({
+                    ok: true,
+                    message: `You have withdrew ${amount}`,
+                    active: true,
+                })
+                router.back()
             }).catch((err: Error) => {
                 console.log(err)
+                setNotification({
+                    ok: false,
+                    message: err.message,
+                    active: true,
+                })
             })
         setLoading(false)
     }

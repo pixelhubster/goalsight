@@ -42,7 +42,7 @@ const Insight = async ({ id }: { id: number | undefined }) => {
   return (
     <>
       <div className='w-full h-[10rem] bg-green-300'>
-        <Image src={`/images/${id}.jpg`} alt={''} width={0} height={0} style={{ width: '100%', height: '100%'}}/>
+        <Image src={`/images/${id}.jpg`} alt={''} width={0} height={0} style={{ width: '100%', height: '100%'}} priority={true} />
       </div>
       <div className='w-full h-full bg-[#FAF5FF] p-2 flex xl:px-10 justify-center rounded-md'>
         <div className='w-full md:w-[80%] lg:w-[65%] bg-white shadow-md overflow-hidden'>
@@ -54,7 +54,7 @@ const Insight = async ({ id }: { id: number | undefined }) => {
                 <p className='text-[12px] text-gray-500 p-2'>Approved</p>
                 <div className='flex flex-col mr-2 customgrid'>
                   {partners.map((partner: any, key: number) => (
-                    <PartnerOverview key={key} {...partner} account={accounts[0]} id={key} />
+                    <PartnerOverview key={key} {...partner} account={accounts[0]} id={id} />
                   ))}
                 </div>
               </>
@@ -65,7 +65,7 @@ const Insight = async ({ id }: { id: number | undefined }) => {
                 <p className='text-[12px] text-gray-500 p-2'>Pending</p>
                 <div className='flex flex-col customgrid'>
                   {pending.map((partner: any, key: number) => (
-                    <PartnerOverview key={key} {...partner} id={key} account={accounts[0]} pending={true} />
+                    <PartnerOverview key={key} {...partner} id={id} account={accounts[0]} pending={true} />
                   ))}
                 </div>
               </>
