@@ -77,7 +77,7 @@ const PartnerButton = (props: { approved: boolean, id: number }) => {
     }
     useEffect(() => {
         async function fetchData() {
-            const result = await fetch(1);
+            const result = await fetch(props.id);
             const accounts = await window.ethereum.request({ method: 'eth_accounts' })
             setAccounts(accounts)
             setPartners(result)
