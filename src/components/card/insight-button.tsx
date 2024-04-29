@@ -41,7 +41,7 @@ const InsightButton = (props: { approved: boolean, id: number }) => {
         })
     }
     async function approve(wallet: any, id: number, acc: Array<any>) {
-        await wallet.methods.approveGoal(id).call()
+        await wallet.methods.approveGoal(id).call({ from: acc[0]})
             .then(async (res: Response) => {
                 await wallet.methods.approveGoal(id).send({ from: acc[0] })
                     .then((res: Response) => {
@@ -68,7 +68,7 @@ const InsightButton = (props: { approved: boolean, id: number }) => {
             })
     }
     async function reject(wallet: any, id: number, acc: Array<any>) {
-        await wallet.methods.rejectGoal(id).call()
+        await wallet.methods.rejectGoal(id).call({ from: acc[0]})
             .then(async (res: Response) => {
                 await wallet.methods.rejectGoal(id).send({ from: acc[0] })
                     .then((res: Response) => {

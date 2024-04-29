@@ -26,7 +26,7 @@ const Form = ({ children, btn, method, fn }: { children: React.ReactNode[], btn?
         setLoading(false)
     }
     return (
-        <div className='w-[30rem] bg-white rounded-md overflow-hidden shadow-lg'>
+        <div className='w-[30rem] max-sm:w-[85%] bg-white rounded-md overflow-hidden shadow-lg'>
             <div className='w-full flex justify-between items-center bg-gray-00 p-2 pt-5 px-5 bg-red-00'>
                 <button className='text-gray-600' onClick={() => router.back()}>
                     <MdClose className='text-lg' />

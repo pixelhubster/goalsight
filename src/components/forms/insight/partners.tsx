@@ -17,7 +17,7 @@ async function fetch(smartcontract: any) {
 const PartnerForm = () => {
     const form = useForm()
     const [value, handleOnChange] = form()
-    console.log(value)
+    // console.log(value)
     const [partners, setPartners] = useState<any>(null);
     // console.log(partners)
     useEffect(() => {

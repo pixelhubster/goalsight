@@ -22,9 +22,9 @@ const PartnerButton = (props: { approved: boolean, id: number }) => {
     const setNotification = useNotification()
     async function approve(wallet: any, id: number, acc: Array<any>) {
         setLoading(true);
-        await wallet.methods.approvePartner(id).call().then(async (res: Response) => {
+        await wallet.methods.approvePartner(id).call({ from: acc[0] }).then(async (res: Response) => {
             await wallet.methods.approvePartner(id).send({ from: acc[0] })
-                .then((res: Response) => {
+                .then(() => {
                     setNotification({
                         active: true,
                         ok: true,
@@ -45,17 +45,13 @@ const PartnerButton = (props: { approved: boolean, id: number }) => {
                 message: err.message
             })
         })
-
-        // await wallet.methods.approvePartner(id).send({ from: acc[0] })
-        //     .then((res: Response) => console.log(res))
-        //     .catch((err: Error) => console.log(err))
-        // setLoading(false);
+        setLoading(false);
     }
     async function reject(wallet: any, id: number, acc: Array<any>) {
         setLoading(true)
-        await wallet.methods.rejectPartner(id).call().then(async (res: Response) => {
+        await wallet.methods.rejectPartner(id).call({ from: acc[0]}).then(async (res: Response) => {
             await wallet.methods.rejectPartner(id).send({ from: acc[0] })
-            .then((res: Response) => {
+            .then(() => {
                 setNotification({
                     active: true,
                     ok: true,
@@ -78,17 +74,16 @@ const PartnerButton = (props: { approved: boolean, id: number }) => {
             })
         })
         setLoading(false)
-        // await wallet.methods.rejectPartner(id).send({ from: acc[0] })
-        //     .then((res: Response) => console.log(res))
-        //     .catch((err: Error) => console.log(err))
-        // setLoading(false)
     }
     useEffect(() => {
         async function fetchData() {
-            const result = await fetch(props.id);
+            const result = await fetch(1);
             const accounts = await window.ethereum.request({ method: 'eth_accounts' })
             setAccounts(accounts)
             setPartners(result)
+            // console.log(result)
+            const date = new Date(Number(await result.expire) * 1000)
+            // console.log(date.getFullYear(), date.getUTCMonth(),date.getDate(),date.getUTCHours(),date.getUTCMinutes(),date.getUTCSeconds())
         }
         fetchData()
         // eslint-disable-next-line react-hooks/exhaustive-deps
